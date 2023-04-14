@@ -23,8 +23,9 @@ print_hi('Tom')
 #=> prints 'Hi, Tom' to STDOUT.
 {% endhighlight %}
 
-{% highlight ruby %}
+{% highlight html %}
 <template>
+
 <article class="slds-card">
 <div class="slds-card__header slds-grid">
 </div>
