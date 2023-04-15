@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "How I integrated Salesforce with ChatGPT"
-date:   2023-04-15 19:49:26 +0200
+date:   2023-04-14 19:49:26 +0200
 categories: jekyll update
 ---
 Hey! The truth behind this article is that I was speaking with my team of developers, and we love trying new restaurants,
