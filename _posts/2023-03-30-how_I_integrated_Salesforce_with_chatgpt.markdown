@@ -10,7 +10,7 @@ So I told myself it could be cool to integrate chatGPT with one of my sandboxes.
 
 <h3>Configuration Part</h3>
 First, we have to add a custom metadata type to store our variables. By doing this, Salesforce will store our sensitive data, and we will just have to access them from our code!
-![test](/Images/credentials_mdt_step1.png)
+![test](/Images/credentials_mdt_step1.jpg)
 
 
 <h3>HTML Part</h3>
