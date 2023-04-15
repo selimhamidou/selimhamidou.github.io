@@ -2,7 +2,7 @@
 layout: post
 title:  "How I integrated Salesforce with ChatGPT"
 date:   2023-04-15 19:49:26 +0200
-categories: Salesforce integration
+categories: jekyll update
 ---
 Hey! The truth behind this article is that I was speaking with my team of developers, and we love trying new restaurants,
 especially kebabs! But we were pretty unsure about which restaurant to give a try, every discussion about that was creating conflicts. So, I integrated ChatGPT with one of my Salesforce sandboxes to make this life changing choice... 
