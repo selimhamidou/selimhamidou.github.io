@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "How I integrated Salesforce with ChatGPT"
-date:   2023-03-30 19:49:26 +0200
-categories: jekyll update
+date:   2023-04-15 19:49:26 +0200
+categories: Salesforce integration
 ---
 Hey! The truth behind this article is that I was speaking with my team of developers, and we love trying new restaurants,
 especially kebabs! But we were pretty unsure about which restaurant to give a try, every discussion about that was creating conflicts. So, I integrated ChatGPT with one of my Salesforce sandboxes to make this life changing choice... 
@@ -156,4 +156,29 @@ public class BackEndChatGPT {
   }
 }
 {% endhighlight %}
+
+<h3>Adding our LWC to our org</h3>
+Our meta file will allow us to specify where has to be put. Personally, I want this LWC on my Home page
+
+{% highlight xml %}
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Ask ChatGPT</masterLabel>
+    <targets>
+        <target>lightning__HomePage</target>
+    </targets>
+</LightningComponentBundle>
+{% endhighlight %}
+
+Now that we have deployed everything to our Salesforce org, we can go to the app builder, and add the LWC.
+<br><br>
+![Creating Credentials Custom Metadata Type Final](/Images/app_builder.jpg)
+
+So, the best kebabs of Paris are...
+<br><br>
+![Best kebabs of Paris](/Images/final_result_chatgpt.jpg)
+
+
 
