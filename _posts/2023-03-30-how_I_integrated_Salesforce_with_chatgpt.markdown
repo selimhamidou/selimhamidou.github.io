@@ -8,7 +8,12 @@ Hey! The truth behind this article was that I was speaking with my team of devel
 especially kebabs! But we were pretty unsure about which restaurant to give a try(we were in Paris). 
 So I told myself it could be cool to integrate chatGPT with one of my sandboxes...
 
-<h2>HTML part</h2>
+<h3>Configuration Part</h3>
+First, we have to add a custom metadata type to store our variables. By doing this, Salesforce will store our sensitive data, and we will just have to access them from our code!
+![test](/Images/credentials_mdt_step1.png)
+
+
+<h3>HTML Part</h3>
 Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are adding an input("which are the best kebabs in Paris?) and an output("the best kebabs are x, y and z", which will be given by chatGPT itself!).
 
 {% highlight html %}
@@ -40,7 +45,7 @@ Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are 
 </template>
 {% endhighlight %}
 
-JavaScript Part:
+<h3>JavaScript Part</h3>
 Basically, in this part, we get the question asked from the html part, and it's saved in the variable questionToAsk.
 This variable will be used to call the callChatGPT apex method.
 The role of the javascript method `handleEnter` is simply to verify if the user typed the touch Enter. If he did, we call Apex. If he didn't, we don't.
@@ -78,8 +83,7 @@ export default class ChatGPTConsole extends LightningElement {
 }
 {% endhighlight %}
 
-Backend part
-
+<h3>Apex Part</h3>
 {% highlight apex %}
 public class BackEndChatGPT {
   
@@ -125,8 +129,3 @@ public class BackEndChatGPT {
 }
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
-
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
