@@ -10,27 +10,33 @@ especially kebabs! But we were pretty unsure about which restaurant to give a tr
 <h3>Configuration Part</h3>
 First, we have to add a custom metadata type to store our variables. By doing this, Salesforce will store our sensitive data, and we will just have to access it from our code!
 
-We create a custom metadata type called Credentials
+We create a custom metadata type called Credentials:
+<br>
 ![Creating Credentials Custom Metadata Type Step 1](/Images/credentials_mdt_step1.jpg)
 
 We create two new fields of type text: one for the token, and the second for the endpoint
+<br>
 ![Creating Credentials Custom Metadata Type Step 2](/Images/credentials_mdt_step2.jpg)
-
+<br>
 ![Creating Credentials Custom Metadata Type Field Token ](/Images/credentials_mdt_create_token_field.jpg)
-
+<br>
 ![Creating Credentials Custom Metadata Type Field Endpoint ](/Images/credentials_mdt_create_endpoint_field.jpg)
-
+<br><br>
 Here is the final state of our custom metadata type
 ![Creating Credentials Custom Metadata Type Final](/Images/credentials_mdt_final.jpg)
-
+<br><br>
 To get a token, you have to go to this link from the API we are using, and ask for a token:`https://platform.openai.com/account/api-keys`
 Then, copy the token in your Notepad.
+<br>
 ![Getting a token from OpenAI](/Images/credentials_mdt_final.jpg)
 
 Now we add a record on our custom metadata type, with `https://api.openai.com/v1/chat/completions` as an endpoint, and with the token we just got. 
+<br>
 ![Creating Credentials Custom Metadata Type Record For ChatGPT](/Images/credentials_mdt_chatgpt_record.jpg)
 
-We also have to add a remote site setting, to tell Salesforce that our endoint is legit, so we go to Setup -> Remote Site Settings -> New:
+We also have to add a remote site setting, to tell Salesforce that our endoint is legit, so we go to:
+Setup -> Remote Site Settings -> New:
+<br>
 ![Creating a remote site setting for the endpoint](/Images/create_remote_site_setting.jpg)
 
 Now that everything is configured properly, we can move to the development part.
