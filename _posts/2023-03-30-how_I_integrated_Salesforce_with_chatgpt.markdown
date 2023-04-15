@@ -4,13 +4,23 @@ title:  "How I integrated Salesforce with ChatGPT"
 date:   2023-03-30 19:49:26 +0200
 categories: jekyll update
 ---
-Hey! The truth behind this article was that I was speaking with my team of developers, and we love trying new restaurants,
-especially kebabs! But we were pretty unsure about which restaurant to give a try(we were in Paris). 
-So I told myself it could be cool to integrate chatGPT with one of my sandboxes...
+Hey! The truth behind this article is that I was speaking with my team of developers, and we love trying new restaurants,
+especially kebabs! But we were pretty unsure about which restaurant to give a try, every discussion about that was creating conflicts. So, I integrated ChatGPT with one of my Salesforce sandboxes to make this life changing choice... 
 
 <h3>Configuration Part</h3>
 First, we have to add a custom metadata type to store our variables. By doing this, Salesforce will store our sensitive data, and we will just have to access them from our code!
-![test](/Images/credentials_mdt_step1.jpg)
+![Creating Credentials Custom Metadata Type Step 1](/Images/credentials_mdt_step1.jpg)
+
+![Creating Credentials Custom Metadata Type Step 2](/Images/credentials_mdt_step2.jpg)
+
+![Creating Credentials Custom Metadata Type Field Token ](/Images/credentials_mdt_create_token_field.jpg)
+
+![Creating Credentials Custom Metadata Type Field Endpoint ](/Images/credentials_mdt_create_endpoint_field.jpg)
+
+![Creating Credentials Custom Metadata Type Final](/Images/credentials_mdt_final.jpg)
+
+![Creating Credentials Custom Metadata Type Record For ChatGPT](/Images/credentials_mdt_chatgpt_record.jpg)
+
 
 
 <h3>HTML Part</h3>
