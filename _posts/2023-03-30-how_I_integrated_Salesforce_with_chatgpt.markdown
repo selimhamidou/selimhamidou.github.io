@@ -8,7 +8,7 @@ Hey! The truth behind this article was that I was speaking with my team of devel
 especially kebabs! But we were pretty unsure about which restaurant to give a try(we were in Paris). 
 So I told myself it could be cool to integrate chatGPT with one of my sandboxes...
 
-HTML part
+<h2>HTML part</h2>
 Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are adding an input("which are the best kebabs in Paris?) and an output("the best kebabs are x, y and z", which will be given by chatGPT itself!).
 
 {% highlight html %}
@@ -24,7 +24,6 @@ Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are 
           <div class="slds-form-element__static">
             <p>{data}</p>
           </div>
-          <!-- Default/basic -->
           <div class="slds-p-around_medium lgc-bg">
             <lightning-input
               value={questionToAsk}
@@ -51,10 +50,20 @@ import { LightningElement, track } from "lwc";
 import callChatGPT from "@salesforce/apex/BackEndChatGPT.callChatGPT";
 
 export default class ChatGPTConsole extends LightningElement {
+  //These two variables will be used to handle the response from ChatGPT
   @track data;
   @track error;
-  questionToAsk;
 
+  questionToAsk; //Gotten from the lightning-input
+
+  //We don't call ChatGPT until the user presses enter
+  handleEnter(event) {
+    if (event.key === "Enter") {
+      this.questionToAsk = event.target.value;
+      this.handleCallout();
+    }
+  }
+  //When the user did, we call our Apex method(with questionToAsk as a parameter), and we display the response(data) in the html
   handleCallout() {
     callChatGPT({ questionToAsk: this.questionToAsk })
       .then((result) => {
@@ -66,53 +75,52 @@ export default class ChatGPTConsole extends LightningElement {
         console.log("there is an error: " + error);
       });
   }
-
-  handleEnter(event) {
-    if (event.key == "Enter") {
-      this.questionToAsk = event.target.value;
-      this.handleCallout();
-    }
-  }
 }
 {% endhighlight %}
 
 Backend part
 
-{% highlight java %}
+{% highlight apex %}
 public class BackEndChatGPT {
-  public BackEndChatGPT() {
-  }
-  private static String CHAT_GPT_KEY = OpenAiKey__c.getValues('keyValue')
-    .Key__c;
-  private static final String ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+  
+  //We get the token and the endpoint from the custom metadata type Credentials__mdt, that we created before
+  //Using custom metadata type is a personal choice. I could have used custom setting instead, it would have worked the same
+  private static String token = Credentials__mdt.getInstance('ChatGPT')
+    .Token__c;
+  private static String endpoint = Credentials__mdt.getInstance('ChatGPT')
+    .Endpoint__c;
 
-  @AuraEnabled
+  //This method is the one called by our LWC
+  //We call this method imperatively, so no need to add cacheable=true, but it's better for the performance
+  @AuraEnabled(cacheable=true)
   public static String callChatGPT(String questionToAsk) {
+    //We create a POST request, and we define some parameters to give to the ChatGPT API. The model will be defined by our usage.
     Http h = new Http();
     HttpRequest req = new HttpRequest();
-    req.setEndpoint(ENDPOINT);
+    req.setEndpoint(endpoint);
     req.setMethod('POST');
     String body =
-      '{"model": "gpt-3.5-turbo","messages": [{"role": "user", "content": "' +
+      '{"model": "gpt-3.5-turbo","messages": [{"role": "user", "content": "' + //The model gpt-3.5-turbo seems to be the most versatile to use
       questionToAsk +
-      '"}], "temperature":1.2}';
-    req.setHeader(
-      'Authorization',
-      'Bearer ' + CHAT_GPT_KEY
-    );
+      '"}], "temperature":0.7}'; //The temperature defines the precision of the response. It's an arbitrary value, we could use more, or less(but always between 0 and 2)
+    req.setHeader('Authorization', 'Bearer ' + token);
     req.setHeader('content-type', 'application/json');
     req.setBody(body);
     HttpResponse res = h.send(req);
+    //We check if the request has succeeded. If yes, we treat the response, and give it back to our LWC.
+    //If no, we simply return an empty string
     if (res.getStatusCode() == 200) {
       Map<String, Object> results = (Map<String, Object>) JSON.deserializeUntyped(
         res.getBody()
       );
       List<Object> choices = (List<Object>) results.get('choices');
-          Map<String, Object> dataNode = (Map<String, Object>)((Map<String, Object>)choices[0]);
-          String content = String.valueOf(((Map<String, Object>)(dataNode.get('message'))).get('content'));
+      Map<String, Object> dataNode = (Map<String, Object>) ((Map<String, Object>) choices[0]);
+      String content = String.valueOf(
+        ((Map<String, Object>) (dataNode.get('message'))).get('content')
+      );
       return content;
     }
-      return '';
+    return '';
   }
 }
 {% endhighlight %}
