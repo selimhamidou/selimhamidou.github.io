@@ -176,7 +176,7 @@ Now that we have deployed everything to our Salesforce org, we can go to the app
 <br><br>
 ![Creating Credentials Custom Metadata Type Final](/Images/app_builder.jpg)
 
-So, the best kebabs of Paris are...
+<h3>And, the final winner is...</h3>
 <br><br>
 ![Best kebabs of Paris](/Images/final_result_chatgpt.jpg)
 
