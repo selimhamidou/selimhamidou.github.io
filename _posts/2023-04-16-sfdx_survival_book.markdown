@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "sfdx Survival book"
-date:   2023-03-28 19:49:26 +0200
+date:   2023-04-21 19:49:26 +0200
 categories: jekyll update
 ---
 This post is not finished. At this time, I am using a lot sfdx, and instead of searching for the good informations everywhere in the web, I am just trying to get everything I need on the same place. So, I will begin with a couple of commands, and I will add some others, from time to time. 
