@@ -279,8 +279,11 @@ Now, users have just to choose a number of results per page and a query from the
 
 <h3>Sources</h3>
 You can check these links, they are very useful:
-[Lightning Design System](https://www.lightningdesignsystem.com/components/data-tables/){:target="_blank"}{:rel="noopener noreferrer"}
-[Pagination Salesforce Documentation](https://developer.salesforce.com/blogs/2014/08/paginating-data-for-force-com-applications){:target="_blank"}{:rel="noopener noreferrer"}
+<ul>
+<li>[Lightning Design System](https://www.lightningdesignsystem.com/components/data-tables/){:target="_blank"}{:rel="noopener noreferrer"}</li>
+<li>[Pagination Salesforce Documentation](https://developer.salesforce.com/blogs/2014/08/paginating-data-for-force-com-applications){:target="_blank"}{:rel="noopener noreferrer"}</li>
+</ul>
+
 
 
 
