@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to handle pagination on a LWC"
-date: 2023-04-28 19:49:26 +0200
+date: 2023-04-28 08:49:26 +0200
 categories: jekyll update
 ---
 
