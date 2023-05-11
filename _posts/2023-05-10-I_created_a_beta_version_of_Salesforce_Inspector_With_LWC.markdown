@@ -62,6 +62,7 @@ This part will be the skeleton of our LWC. It's completed now, but the important
 
 <h3>Step 2: JavaScript</h3>
 Here, the difficulty for me has been to handle the uploaded csv file. My goal was to use the FileReader object to read the CSV and then send it to my Apex method. Unfortunately, it didn't work, and while trying to find the reason, I discovered that the file was not recognized as a real file by the navigator. So, I have chosen something simpler but heavier in resources: I've gotten the file Id, and I've given it to the apex class, which has to perform a SOQL query to get the actual csv content.
+
 {% highlight javascript %}
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -134,11 +135,12 @@ export default class UpsertRecords extends LightningElement {
 }
 {% endhighlight %}
 
+
 <h3>Part3: Apex</h3>
 The Apex class contains two methods: the first one, getObjectApiNames, is called by using the wire service(you can notice the cacheable=true) annotation, and the second one, UpsertRecordsFromCSV, is called imperatively.
 We also could have used imperative callouts for getObjectApiNames, it would have given us more control about when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
 
-{%hightlight apex %}
+{%hightlight java %}
 public with sharing class UpsertRecordsHandler {
   @AuraEnabled
   //The method receives the object name from the LWC's picklist, and the uploaded CSV File Id
