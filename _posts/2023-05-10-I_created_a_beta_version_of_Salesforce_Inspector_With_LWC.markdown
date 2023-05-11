@@ -138,7 +138,7 @@ export default class UpsertRecords extends LightningElement {
 {% endhighlight %}
 
 
-<h3>Part3: Apex</h3>
+<h3>Step 3: Apex</h3>
 The Apex class contains two methods: the first one, getObjectApiNames, is called by using the wire service(you can notice the cacheable=true) annotation, and the second one, UpsertRecordsFromCSV, is called imperatively.
 We also could have used imperative callouts for getObjectApiNames, it would have given us more control about when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
 
@@ -198,7 +198,7 @@ public with sharing class UpsertRecordsHandler {
 }
 {% endhighlight %}
 
-<h3>Part 4: The LWC Meta file</h3>
+<h3>Step 4: The LWC Meta file</h3>
 Here is the configuration I used to display this Lightning Web Component on my Salesforce organization. 
 It's up to you to modify it, to suit your needs.
 
@@ -214,8 +214,7 @@ It's up to you to modify it, to suit your needs.
 </LightningComponentBundle>
 {% endhighlight%}
 
-Now, here is the result:
-![Uploading CSV Files](/Images/upload_csv.jpg)
+Now, you can  the result:
 ![Final result](/Images/success_upload_csv.jpg)
 
 
