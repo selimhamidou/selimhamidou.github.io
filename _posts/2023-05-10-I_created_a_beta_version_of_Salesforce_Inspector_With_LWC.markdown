@@ -7,6 +7,8 @@ categories: jekyll update
 Ok the title could be confusing, because at this time, there is still a lot to do to get a new Salesforce Inspector.
 But I am proud of this development because it handles data upsert really well, and I know that It has some room for improvement!
 
+![Uploading CSV Files](/Images/jian-yang-new-internet.jpg)
+
 <h3>Step 1: HTML</h3>
 This part will be the skeleton of our LWC. It's completed now, but the important here is that the components I am using are simply: a lightning combobox as a picklist, a lightning file upload to handle the file uploadings, and a lightning button to allow the user to click on "Upsert records". We will simply use these elements from javascript to get(or give, following the case) some informations. These elements will be inside a Lightning card, but this is just for presentation purposes. And we also use SLDS classes to give our Lightning Web Component a more attractive appearance.
 
@@ -59,7 +61,7 @@ This part will be the skeleton of our LWC. It's completed now, but the important
     </div>
   </lightning-card>
 </template>
-{% raw %}
+{% endraw %}
 {% endhighlight %}
 
 <h3>Step 2: JavaScript</h3>
@@ -136,7 +138,7 @@ export default class UpsertRecords extends LightningElement {
       });
   }
 }
-{% raw %}
+{% endraw %}
 {% endhighlight %}
 
 
@@ -199,7 +201,7 @@ public with sharing class UpsertRecordsHandler {
     return objectApiNames; //We return the list to the LWC
   }
 }
-{% raw %}
+{% endraw %}
 {% endhighlight %}
 
 <h3>Part 4: The LWC Meta file</h3>
@@ -217,7 +219,7 @@ It's up to you to modify it, to suit your needs.
         <target>lightning__HomePage</target>
     </targets>
 </LightningComponentBundle>
-{% raw %}
+{% endraw %}
 {%endhighlight%}
 
 Now, here is the result:
