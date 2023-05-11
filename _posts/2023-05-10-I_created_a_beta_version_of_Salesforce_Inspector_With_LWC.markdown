@@ -140,7 +140,7 @@ export default class UpsertRecords extends LightningElement {
 The Apex class contains two methods: the first one, getObjectApiNames, is called by using the wire service(you can notice the cacheable=true) annotation, and the second one, UpsertRecordsFromCSV, is called imperatively.
 We also could have used imperative callouts for getObjectApiNames, it would have given us more control about when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
 
-{%hightlight java %}
+{% hightlight java %}
 public with sharing class UpsertRecordsHandler {
   @AuraEnabled
   //The method receives the object name from the LWC's picklist, and the uploaded CSV File Id
@@ -171,7 +171,7 @@ public with sharing class UpsertRecordsHandler {
       SObject record = objectType.newSObject();
       List<String> values = csvLines[i].split(','); //We define a list of all the values of each record
       for (Integer j = 0; j < headers.size(); j++) {
-        record.put(headers[j], values[j]); //The field names and the values have the same indexes, we just do the match here on our record
+        record.put(headers[j].trim(), values[j].trim()); //The field names and the values have the same indexes, we just do the match here on our record
       }
       recordsToHandle.add(record); //We add the record to the list, to bulkify the upsert
     }
