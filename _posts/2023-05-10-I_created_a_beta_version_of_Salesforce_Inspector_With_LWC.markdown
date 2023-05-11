@@ -13,7 +13,6 @@ But I am proud of this development because it handles data upsert really well, a
 This part will be the skeleton of our LWC. It's completed now, but the important here is that the components I am using are simply: a lightning combobox as a picklist, a lightning file upload to handle the file uploadings, and a lightning button to allow the user to click on "Upsert records". We will simply use these elements from javascript to get(or give, following the case) some informations. These elements will be inside a Lightning card, but this is just for presentation purposes. And we also use SLDS classes to give our Lightning Web Component a more attractive appearance.
 
 {% highlight html %}
-{% raw %}
 <template>
   <lightning-card>
     <div slot="title" class="slds-m-left_small">Upsert Records</div>
@@ -61,14 +60,12 @@ This part will be the skeleton of our LWC. It's completed now, but the important
     </div>
   </lightning-card>
 </template>
-{% endraw %}
 {% endhighlight %}
 
 <h3>Step 2: JavaScript</h3>
 Here, the difficulty for me has been to handle the uploaded csv file. My goal was to use the FileReader object to read the CSV and then send it to my Apex method. Unfortunately, it didn't work, and while trying to find the reason, I discovered that the file was not recognized as a real file by the navigator. So, I have chosen something simpler but heavier in resources: I've gotten the file Id, and I've given it to the apex class, which has to perform a SOQL query to get the actual csv content.
 
 {% highlight javascript %}
-{% raw %}
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getObjectApiNames from "@salesforce/apex/UpsertRecordsHandler.getObjectApiNames";
@@ -138,7 +135,6 @@ export default class UpsertRecords extends LightningElement {
       });
   }
 }
-{% endraw %}
 {% endhighlight %}
 
 
@@ -146,8 +142,7 @@ export default class UpsertRecords extends LightningElement {
 The Apex class contains two methods: the first one, getObjectApiNames, is called by using the wire service(you can notice the cacheable=true) annotation, and the second one, UpsertRecordsFromCSV, is called imperatively.
 We also could have used imperative callouts for getObjectApiNames, it would have given us more control about when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
 
-{% hightlight java %}
-{% raw %}
+{% highlight java %}
 public with sharing class UpsertRecordsHandler {
   @AuraEnabled
   //The method receives the object name from the LWC's picklist, and the uploaded CSV File Id
@@ -201,7 +196,6 @@ public with sharing class UpsertRecordsHandler {
     return objectApiNames; //We return the list to the LWC
   }
 }
-{% endraw %}
 {% endhighlight %}
 
 <h3>Part 4: The LWC Meta file</h3>
@@ -209,7 +203,6 @@ Here is the configuration I used to display this Lightning Web Component on my S
 It's up to you to modify it, to suit your needs.
 
 {%highlight xml%}
-{% raw %}
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>53.0</apiVersion>
@@ -219,8 +212,7 @@ It's up to you to modify it, to suit your needs.
         <target>lightning__HomePage</target>
     </targets>
 </LightningComponentBundle>
-{% endraw %}
-{%endhighlight%}
+{% endhighlight%}
 
 Now, here is the result:
 ![Uploading CSV Files](/Images/upload_csv.jpg)
