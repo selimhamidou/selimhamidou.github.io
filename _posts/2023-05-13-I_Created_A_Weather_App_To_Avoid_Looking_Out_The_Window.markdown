@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I created a weather app with Lightning Web Components, to avoid looking out the window"
-date: 2023-04-28 08:49:26 +0300
+date: 2023-05-13 08:49:26 +0300
 categories: jekyll update
 ---
 
