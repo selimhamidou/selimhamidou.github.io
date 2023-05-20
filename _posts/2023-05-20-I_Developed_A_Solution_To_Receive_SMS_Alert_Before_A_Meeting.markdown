@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I developed a solution to receive SMS alerts before a meeting"
+title: "I developed a solution with Salesforce to receive SMS alerts before a meeting"
 date: 2023-05-20 08:49:26 +0300
 categories: jekyll update
 ---
