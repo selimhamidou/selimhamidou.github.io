@@ -231,7 +231,9 @@ global with sharing class twilioHandler implements Schedulable {
 }
 {% endhighlight %}
 
+<h3>Conclusion</h3>
 <p>Now that everything is in place, we can receive a SMS everytime we add an event on the calendar, which is great! At this time, the message is not personalized, but it could be, by adding some other lines of code!</p>
+![Twilio Result](/Images/Twilio_Result.jpg)
 
 <h3>Sources</h3>
 <ul>
