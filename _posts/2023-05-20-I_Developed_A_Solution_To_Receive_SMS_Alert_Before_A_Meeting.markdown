@@ -9,20 +9,19 @@ categories: jekyll update
 
 <h3>Step one: Configuration</h3>
 <p>To develop this solution, we will need to integrate Salesforce with Twilio API. Don't worry, I will explain everything!
-The first thing to do is to sign up to the <a href="https://www.twilio.com/docs/iam/api">Twilio API</a>. Then you have to go to the Twilio console, and to get your credentials. You will need three things: an API token, an Account SID, and a sender phone number. These three informations will allow you to connect to the Twilio API, and to send some messages. Even if sending SMS with this API has a cost, you can benefit from a 15 dollars credit with the trial version. And you don't need to enter your credit card informations, so that's pretty cool, and to be honest, the 15 dollars will be really enough to test our development. 
+The first thing to do is to sign up to the <a href="https://www.twilio.com/docs/iam/api">Twilio API</a>. Then you have to go to the Twilio console, and to get your credentials. You will need three things: an API token, an Account SID, and a sender phone number. These three informations will allow you to connect to the Twilio API, and to send some messages. Even if sending SMS with this API has a cost, you can benefit from a 15 dollars credit with the trial version. And you don't need to enter your credit card informations, so that's pretty cool, and to be honest, the 15 dollars will be really enough to test our development.</p>
 ![Twilio Console](/Images/Twilio_Credentials.jpg)
-Now that we have these informations, we can create a custom metadata type, called Twilio_Credentials__mdt. On this custom metadata type, we create three fields: Account_SID__c, Phone_Number__c and Token__c. The phone number will be the number from which Twilio will send the SMS.
+<p>Now that we have these informations, we can create a custom metadata type, called Twilio_Credentials__mdt. On this custom metadata type, we create three fields: Account_SID__c, Phone_Number__c and Token__c. The phone number will be the number from which Twilio will send the SMS.</p>
 ![Twilio Custom Metadata Type Settings](/Images/Twilio_Credentials_Mdt_Settings.jpg)
-When it's done, we can add a new custom metadata type record, Send_SMS, and add the given informations in it.
+<p>When it's done, we can add a new custom metadata type record, Send_SMS, and add the given informations in it.</p>
 ![Twilio Custom Metadata Type Send SMS Record](/Images/Twilio_Credentials_Send_SMS_Record.jpg)
-Then, we have to authorize the connexion to Twilio. For this, we use a remote site setting.
+<p>Then, we have to authorize the connexion to Twilio. For this, we use a remote site setting.</p>
 ![Twilio Remote Site Settings](/Images/Twilio_Remote_Site_Settings.jpg)
 
-Now that the connexion is authorized, we can move to the purely functional part. What do we want? We want a picklist with some values of when to send the sms. So we create it, with these values.
+<p>Now that the connexion is authorized, we can move to the purely functional part. What do we want? We want a picklist with some values of when to send the sms. So we create it, with these values.</p>
 ![Twilio Sens SMS Picklist Values](/Images/Twilio_Send_SMS_Picklist_Values.jpg)
-Now, when we want to create an event on the calendar, we got this:
+<p>Now, when we want to create an event on the calendar, we got this:</p>
 ![Twilio Sens SMS Example](/Images/Twilio_Calendar_Send_SMS_Example.jpg)
-</p>
 
 <h3>Step 2: The Apex part</h3>
 <p>Now that the UI is set, what do we want? We want that, when we create an event, we send a SMS.
