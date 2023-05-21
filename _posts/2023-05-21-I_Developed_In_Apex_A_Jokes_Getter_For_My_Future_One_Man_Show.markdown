@@ -150,7 +150,7 @@ String jobID = System.schedule('Get New Jokes Job', sch, m);
 
 <p>And, everyday at 10AM you will receive these notifications:</p>
 <br>
-![Joke API Result](/Images/Joke_API_Result.jpg)
+![Joke API Custom Notification Type](/Images/Joke_API_Custom_Notification_Type.jpg)
 
 
 
