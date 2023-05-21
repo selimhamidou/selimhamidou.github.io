@@ -30,6 +30,7 @@ To get the jokes, no need to scrape all the internet to get them. I used the <a 
 <p>And now, let's move to the the notifications part. How to notify the user that a new joke is coming? We could use platform events, but it's not necessary. We also could use show toast events, but the problem is that the message would only show for a specific object, and not in the entire org. For our need, custom notifications is the perfect choice. By using them, we would allow users to see them, no matter they are in Salesforce. Now that we know this, we also have to know that a custom notification needs a type to exist. We create it by going to Setup->Custom Notifications->New. 
 When it's done, we can move to the Step 2.
 ![Joke API Custom Notification Type](/Images/Joke_API_Custom_Notification_Type.jpg)
+![Joke API Result](/Images/Joke_API_Result.jpg)
 
 <h3>Step 2: The Apex part</h3>
 <p>To be honest, I've reused the skeleton of the code of the <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">Twilio Integration I did yesterday</a>, because the notions involved are the same: we have to schedule a REST callout to an API, so we use the schedulable interface with a future method. As we will see later, some details are different between the two integrations, but there are still a lot of similarities.</p>
@@ -150,7 +151,6 @@ String jobID = System.schedule('Get New Jokes Job', sch, m);
 
 <p>And, everyday at 10AM you will receive these notifications:</p>
 <br>
-![Joke API Custom Notification Type](/Images/Joke_API_Custom_Notification_Type.jpg)
 
 
 
