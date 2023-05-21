@@ -33,6 +33,7 @@ github_username: selimhamidou
 linkedin_username: selim-hamidou
 # Build settings
 theme: minima
+future: true
 plugins:
   - jekyll-feed
 # Exclude from processing.
