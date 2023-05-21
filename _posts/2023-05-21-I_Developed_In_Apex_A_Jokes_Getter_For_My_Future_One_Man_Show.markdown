@@ -14,7 +14,6 @@ So, here is the story behind this article.</p>
 <p>Now that you know everything about the context, let's move to the practical part. 
 To get the jokes, no need to scrape all the internet to get them. I used the <a href="https://api-ninjas.com/api/jokes">Joke API</a> from API Ninja. It allows us up to 50000 callout per month, so it's more than enough for our daily usage. To use it, you just have to sign up, and to go to <a href="https://api-ninjas.com/profile">your profile</a> to see your token. Keep this tab open, we will go back to this.</p>
 ![Joke API Token](/Images/Joke_API_Token.jpg)
-![Joke API Result](/Images/Joke_API_Result.jpg)
 <p>Now, we have to store this token.To do this, we create a custom metadata type called Joke_API_Integration__mdt with a custom field named Token__c. When the custom metadata type and the field are created, you can copy and paste the key on it.</p>
 ![Joke API Custom Metadata Type Fields](/Images/Joke_API_Mdt_Fields.jpg)
 <br><br>
@@ -149,7 +148,8 @@ String jobID = System.schedule('Get New Jokes Job', sch, m);
 {% endhighlight %}
 
 <p>And, everyday at 10AM you will receive these notifications:</p>
-<br>
+<br>![Joke API Result](/Images/Joke_API_Result.jpg)<br>
+
 
 
 
