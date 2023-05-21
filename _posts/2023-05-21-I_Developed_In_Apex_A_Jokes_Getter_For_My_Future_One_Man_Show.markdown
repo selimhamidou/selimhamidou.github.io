@@ -4,6 +4,7 @@ title: "I developed in Apex a jokes getter for my future one man show"
 date: 2023-05-21 20:10:26 +0200
 categories: jekyll update
 ---
+<br>![Joke API Result](/Images/Joke_API_Result.jpg)<br>
 
 <p>Hey! As a full time joker, I love to laugh. This development was, as the beginning, just a way to begin my days with something funny. Generally, daily meetings are at 10AM, so my goal was to receive each day a new joke I would remember about. And, at the middle of my development, I said: "Oh, why wouldn't I lanch my one man show? I can get all the jokes I want, WITH NO EFFORT AT ALL! 
 So, from this moment, the Salesforce notifications feed became a manager which is still ungry at 10AM, still giving me some jokes, but putting pressure on me like: "here is my jokes, you better be funny this time". 
@@ -140,15 +141,15 @@ public with sharing class GetJokesFromAPIHandler implements Schedulable {
 {% endhighlight %}
 
 <h3>Result</h3>
-<p>Now that everything is in place, you can move to your developer console, open the Anonymous Mode, and write these lines of code. It will ask our code to run everyday at 10AM.</p>
+<p>Now that everything is in place, you just have to go to the developer console, open the Anonymous Mode, write these lines of code, and rest(API, I mean).</p>
+
 {%highlight java %}
 GetJokesFromAPIHandler m = new GetJokesFromAPIHandler();
 String sch = '0 0 10 * * ? *';
 String jobID = System.schedule('Get New Jokes Job', sch, m);
 {% endhighlight %}
 
-<p>And, everyday at 10AM you will receive these notifications:</p>
-<br>![Joke API Result](/Images/Joke_API_Result.jpg)<br>
+
 
 
 
