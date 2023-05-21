@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I developed in Apex a jokes getter for my future one man show"
-date: 2023-05-21 08:49:26 +0300
+date: 2023-05-21 05:49:26 +0300
 categories: jekyll update
 ---
 
