@@ -17,14 +17,14 @@ To get the jokes, no need to scrape all the internet to get them. I used the <a 
 
 <p>Now, we have to store this token.To do this, we create a custom metadata type called Joke_API_Integration__mdt with a custom field named Token__c. When the custom metadata type and the field are created, you can copy and paste the key on it.</p>
 ![Joke API Custom Metadata Type Fields](/Images/Joke_API_Mdt_Fields.jpg)
-<br>
+<br><br>
 ![Joke API Custom Metadata Type Records](/Images/Joke_API_Mdt_Record.jpg)
 <p>The next thing to do is to authorize the connexion between Salesforce and the API. For this, we add a Remote Site Setting.</p>
 ![Joke API Remote Site Settings](/Images/Joke_API_Remote_Site_Settings.jpg)
 
 <p>And when it's done, we create a custom object called Joke_For_My_One_Man_Show__c, with the Joke__c field. it will be used to store our jokes, in the case we would like to read them again.</p>
 ![Joke API Object Manager](/Images/Joke_API_Object_Manager.jpg)
-<br>
+<br><br>
 ![Joke API Object Manager Field](/Images/Joke_API_Object_Manager_Field.jpg)
 
 <p>And now, let's move to the the notifications part. How to notify the user that a new joke is coming? We could use platform events, but it's not necessary. We also could use show toast events, but the problem is that the message would only show for a specific object, and not in the entire org. For our need, custom notifications is the perfect choice. By using them, we would allow users to see them, no matter they are in Salesforce. Now that we know this, we also have to know that a custom notification needs a type to exist. We create it by going to Setup->Custom Notifications->New. 
@@ -150,4 +150,5 @@ String jobID = System.schedule('Get New Jokes Job', sch, m);
 
 And, everyday at 10AM you will receive these notifications:
 ![Joke API Result](/Images/Joke_API_Result.jpg)
+
 
