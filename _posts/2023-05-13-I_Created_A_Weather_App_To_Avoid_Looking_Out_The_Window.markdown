@@ -224,10 +224,9 @@ public with sharing class methodUtils {
       weatherFactorsMap.put('temperature', temperature);
       weatherFactorsMap.put('weatherConditions', weatherConditions);
       weatherFactorsMap.put('weatherIcon', weatherIcon);
+    }
       //...And we return them to the LWC
       return weatherFactorsMap;
-    }
-    return weatherFactorsMap;
   }
 }
 {% endhighlight %}
