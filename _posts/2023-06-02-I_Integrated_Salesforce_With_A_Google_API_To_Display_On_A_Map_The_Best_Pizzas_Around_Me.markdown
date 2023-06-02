@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I've integrated Salesforce With a Google API to display on a map the best pizzerias around me"
+title: "I've integrated Salesforce with a Google API to display on a map the best pizzerias around me"
 date: 2023-06-02 09:00:00 +0300
 categories: jekyll update
 ---
@@ -8,7 +8,7 @@ categories: jekyll update
 <p>Hey! We have to agree. Pizza is one of the most beautiful and comforting foods in the world. Every time is an occasion to discover some new pizzerias. And to be honest, even if I am an adventurer(hmmm I am not so sure, let me check on my Trailhead profile...No, I am a Ranger now), I have to challenge myself even more, by finding pizzerias I wouldn't go to normally. Thus, I've developed this Lightning Web Component to allow me to find the best pizzerias around me. And, who knows everything about everything(apart from ChatGPT, I mean)? Yes, Google! So, for this development, we will integrate Salesforce with an API from Google called Places API. I don't want to do some advertising on their API, but I've found it very easy to use, with very well-written documentation. Now that everything was said, let's move to the integration!</p>
 
 <h3>Step one: Integration</h3>
-<p>First, we have to sign up to the <a href="https://console.cloud.google.com/welcome/">Google for developers</a>. By doing so, you get some free credit, which will be more than enough to realize our tests. You can then go to this <a href="https://console.cloud.google.com/apis/credentials">link</a>to get your credentials.</p>
+<p>First, we have to sign up to the <a href="https://console.cloud.google.com/welcome/">Google for developers</a>. By doing so, you get some free credit, which will be more than enough to realize our tests. You can then go to this <a href="https://console.cloud.google.com/apis/credentials">link</a> to get your credentials.</p>
 <p>Concerning this integration, according to the documentation, the only listed way to access the API is through a key, which is given on your Google parameters. And you still have to be cautious about this: according to the Salesforce documentation, custom metadata types can store protected information (like API keys), but you have to set the custom metadata type as "Protected". You have to remember this, it's very important. Also, the drawback we have by using a remote site setting instead of a named credential is that if the key has to change for one reason or another, we can't connect anymore(until we set the new value on our custom metadata type record).</p>
 ![Custom Metadata Type Object](/Images/Google_Places_Integration_mdt_object.jpg)
 <br>
@@ -36,7 +36,7 @@ mapMarkers = [
     },
 ];
 {% endhighlight %}
-<p>This development doesn't need a lot of customization to work. If you look at some resources on the internet, you will see that a lot of them are just about filling this list in the right format(in the JavaScript file), and that's it. Concerning our work, after the callout, we only select the data we want, modify it when it's needed, and set it in the right format. For example, when we transform the value of the price range(1, 2, 3, 4) to a dollar symbol. Or, when we add some (very light) HTML code to the description field, to display multiple elements there. By the way, I've struggled a lot trying to add a "stars system" on my description field, or even on the mapMarkers list. For now, it's not possible. The advantage of the lightning map is that you don't have to work a lot to make it work. But the drawback is that you can't do whatever you want, it's hardly customizable. So yes, you can add some HTML, but that's it. So, no nested LWC, no images to display inside it, just some paragraphs and texts. If you try, the tags will simply be removed. But maybe on the next release we will be able to do more with the lightning-map components!  </p>
+<p>This development doesn't need a lot of customization to work. If you look at some resources on the internet, you will see that a lot of them are just about filling this list in the right format(in the JavaScript file), and that's it. Concerning our work, after the callout, we only select the data we want, modify it when it's needed, and set it in the right format. For example, when we transform the value of the price range(1, 2, 3, 4) to a dollar symbol. Or, when we add some (very light) HTML code to the description field, to display multiple elements there. By the way, I've struggled a lot trying to add a "stars system" on my description field, or even on the mapMarkers list. For now, it's not possible. The advantage of the lightning map is that you don't have to work a lot to make it work. But the drawback is that you can't do whatever you want, it's hardly customizable. So yes, you can add some HTML, but that's it. So, no nested LWC, no images to display inside it, just some paragraphs and texts. If you try, the tags will simply be removed. But maybe on the next release, we will be able to do more with the lightning-map components!  </p>
 {% highlight java %}
 public with sharing class googleCalloutHandler {
   //When you get the result from the API, you get a 1, 2, 3, or 4 for its price range.
@@ -76,7 +76,7 @@ public with sharing class googleCalloutHandler {
     Matcher matcher = regex.matcher(givenAddress); //We apply the regex to our string
     Map<String, String> addressComponents = new Map<String, String>(); //We define a map to store the street name and the city
     if (matcher.find() && matcher.groupCount() >= 2) {
-      //If we find at least two results(street and city), we isolate the two groups, and we save them to the map
+      //If we find at least two results(street and city), we isolate the two groups, and save them to the map
       String lastExpressionBeforeComma = matcher.group(1).trim();
       String lastExpressionAfterComma = matcher.group(2).trim();
       addressComponents.put('street', lastExpressionBeforeComma);
@@ -110,7 +110,7 @@ public with sharing class googleCalloutHandler {
       new List<string>{ latitude, longitude, radius, type, key }
     );
 
-    //When the url is ready, we can define the endpoint of our request, and send it!
+    //When the URL is ready, we can define the endpoint of our request, and send it!
     Request.setEndpoint(url);
     HttpResponse Response = http.send(Request);
     //Note here: the successful status code is 200. It has to be checked by doing some tests,
@@ -135,7 +135,7 @@ public with sharing class googleCalloutHandler {
     String vicinity;
     String user_ratings_total;
     String isOpen;
-    //mapMarkers is a list of maps. It has the same format of the list we have on the documentation(and it has to be, otherwise it won't work)
+    //mapMarkers is a list of maps. It has the same format as the list we have on the documentation(and it has to be, otherwise it won't work)
     List<Map<String, Object>> mapMarkers = new List<Map<String, Object>>();
     //We get a string. We deserialize it to get a map
     Map<String, Object> data = (Map<String, Object>) JSON.deserializeUntyped(
@@ -249,7 +249,7 @@ export default class RestaurantsNearMeMap extends LightningElement {
 {% endhighlight %}
 
 <h3>The HTML Part</h3>
-<p>To be honest, I've even hesitated to give you the HTML file as it was really empty. But it's showing you that here, we almost don't use HTML. The component is already in its finished state. So, yes, we can change few parameters, like how to center the map, or the size of the zoom, but basically, that's it.</p>
+<p>To be honest, I've even hesitated to give you the HTML file as it was really empty. But it's showing you that here, we almost don't use HTML. The component is already in its finished state. So, yes, we can change a few parameters, like how to center the map, or the size of the zoom, but basically, that's it.</p>
 {% highlight html %}
 <template>
   <lightning-card title="Best pizzerias around me">
@@ -265,7 +265,7 @@ export default class RestaurantsNearMeMap extends LightningElement {
 {% endhighlight %}
 
 <h3>Results</h3>
-<p>When you've added everything on your LWC including your meta file, you can see this result. I know that this app is totally a life changer, because it will allow you to know exactly what(pizza) and where to eat. </p>
+<p>When you've added everything on your LWC including your meta file, you can see this result. I know that this app is a life changer because it will allow you to know exactly what(pizza) and where to eat. </p>
 
 ![Result](/Images/Google_Places_Integration_result.jpg)
 <br>
