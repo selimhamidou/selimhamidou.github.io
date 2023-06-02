@@ -190,7 +190,7 @@ public with sharing class googleCalloutHandler {
     return mapMarkers;
   }
 }
-
+{% endhighlight %}
 
 <h3>JavaScript</h3>
 <p>Let's think as a final user. What do we want? We want that, when the user opens the page(it could be any page, I've chosen the Home Page, but it has no importance), we have to collect its geolocation. And when it's done, we can fetch the data we want from Apex. So, let's go! We defined for this a getUserLocation method, called when the page loads. When it's done, the variables latitude and longitude will change. And fortunately, the <a href="https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.data_wire_service_about">wire</a> service on Lightning Web Components is called every time it parameters change!</p>
@@ -263,6 +263,7 @@ export default class RestaurantsNearMeMap extends LightningElement {
   </lightning-card>
 </template>
 {% endhighlight %}
+
 <h3>Results</h3>
 <p>When you've added everything on your LWC including your meta file, you can see this result. I know that this app is totally a life changer, because it will allow you to know exactly what(pizza) and where to eat. </p>
 
