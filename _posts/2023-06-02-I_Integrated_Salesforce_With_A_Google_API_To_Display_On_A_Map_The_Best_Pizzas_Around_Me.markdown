@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I've developed Salesforce With a Google API to display on a map the best pizzerias around me"
+title: "I've integrated Salesforce With a Google API to display on a map the best pizzerias around me"
 date: 2023-06-02 09:00:00 +0300
 categories: jekyll update
 ---
