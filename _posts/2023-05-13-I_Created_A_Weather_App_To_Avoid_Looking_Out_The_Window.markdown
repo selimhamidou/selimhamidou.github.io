@@ -5,10 +5,10 @@ date: 2023-05-13 08:49:26 +0300
 categories: jekyll update
 ---
 
-Hey! I am a nerd. I enjoy finding new ways of building some new developments, and I have to confess. This hobby is taking me some time. So, to avoid looking out the window and keep focus, I needed this app, and I am really proud of this one. Everytime I connect to Salesforce and I am on my Home page, I can see what is the weather like, without moving from my chair, or asking to Google(even this one is not really an argument: to get some informations about the weather, my LWC has to ask to an API, so it's the same...the difference is that, with my development, I've automated all this process).
+Hey! I am a nerd. I enjoy finding new ways of building some new developments, and I have to confess. This hobby is taking me some time. So, to avoid looking out the window and keep focus, I needed this app, and I am really proud of this one. Every time I connect to Salesforce and I am on my Home page, I can see what is the weather like, without moving from my chair, or asking Google(even this one is not really an argument: to get some information about the weather, my LWC has to ask to an API, so it's the same...the difference is that, with my development, I've automated all this process).
 So, if you want to see how I did, keep reading!
 <h3>Step 0: Before we begin this development</h3>
-Before we begin, we have to choose an API and to authorize an endpoint. We've choosen an API called weatherapi, and created a remote site setting for the occasion(in order to tell Salesforce that this connexion is legit).
+Before we begin, we have to choose an API and authorize an endpoint. We've chosen an API called weatherapi and created a remote site setting for the occasion(to tell Salesforce that this connexion is legit).
 ![Weather App Remote Site Settings](/Images/weather_app_remote_site_settings.jpg)
 
 The next thing to do is to create a custom metadata type called Key_Weather_API__mdt. We add a custom field of type text, Key__c. Then, we can create our record on this custom metadata type, which will store our token.
@@ -18,7 +18,7 @@ To get a token, we have to go to https://www.weatherapi.com/my/. Normally, you s
 
 Now that everything is in place, we can begin our Lightning Web Component!
 <h3>Step 1: HTML</h3>
-Here, the lightning layouts and lightning layout items allow me to get some columns. I need four(Location, Temperature(°C), Weather Conditions, and Weather Icon). I still used slds to improve the render, and I also used two lines of css to describe how I want the text to be displayed. It could have been used directly inside the html template, but I find it more convenient to also have an external css file when slds in not sufficient. But it's up to you. Concerning the icons, I called them from Lightning Design System. I will add the links at the end of this article.
+Here, the lightning layouts and lightning layout items allow me to get some columns. I need four(Location, Temperature(°C), Weather Conditions, and Weather Icon). I still used slds to improve the render, and I also used two lines of CSS to describe how I want the text to be displayed. It could have been used directly inside the html template, but I find it more convenient to also have an external CSS file when slds is not sufficient. But it's up to you. Concerning the icons, I called them from Lightning Design System. I will add the links at the end of this article.
 {% highlight html %}
 <template>
   <lightning-card title="What's the weather like here?">
@@ -104,7 +104,7 @@ Here, the lightning layouts and lightning layout items allow me to get some colu
 {% endhighlight %}
 
 <h3>Step 2: JavaScript</h3>
-Two steps here: 1)We get the current location of the user(the user will have to allow the geolocation on his computer if he wants this to work), and store it to two variables(one for longitude, one for latitude), and 2)We call Apex with these two. In return, our Apex method gives us the weather informations we want to display on the screen.
+Two steps here: 1)We get the current location of the user(the user will have to allow the geolocation on his computer if he wants this to work), and store it to two variables(one for longitude, one for latitude), and 2)We call Apex with these two. In return, our Apex method gives us the weather information we want to display on the screen.
 {% highlight javascript %}
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -124,7 +124,7 @@ export default class WeatherComponent extends LightningElement {
   weatherConditions;
   weatherIcon;
 
-  //We call the getInfosFromApi method with the latitude and longitude parameters, and if there is no error, we get back the weather infos
+  //We call the getInfosFromApi method with the latitude and longitude parameters, and if there is no error, we get back the weather data
   @wire(getInfosFromApi, { latitude: "$latitude", longitude: "$longitude" })
   wiredInfos({ error, data }) {
     //The data here is an object. So we just have to save the elements of the object on variables, and then display them to the screen
@@ -156,8 +156,8 @@ export default class WeatherComponent extends LightningElement {
 {% endhighlight %}
 
 <h3>Step 3: Apex</h3>
-When we think about calling an exernal webservice, we got to think about two things: how to authorize the endpoint, and where to store the credentials. For this step, we have the choice between between using a named credential handling the whole operation, or using a remote site setting with a custom metadata type(to store the credentials). I choosed to use the latter, because in my mind, both are secure. The thing to avoid is having some confidential informations on the code, which is not the case here. 
-I also didn't use it, but you can use postman when you need to test api callouts before beginning the developments, it's pretty useful, knowing that each API has its own specificities.  
+When we think about calling an external web service, we got to think about two things: how to authorize the endpoint, and where to store the credentials. For this step, we have the choice between using a named credential to handle the whole operation or using a remote site setting with a custom metadata type(to store the credentials). I chose to use the latter because, in my mind, both are secure. The thing to avoid is having some confidential information on the code, which is not the case here. 
+I also didn't use it, but you can use Postman when you need to test API callouts before beginning the developments, it's pretty useful, knowing that each API has its own specificities.  
 You also have to know here that, even if we return a Map<String, String> from this method, the received data into the LWC will be an object.
 
 {% highlight java %}
@@ -169,14 +169,14 @@ public with sharing class methodUtils {
     String latitude,
     String longitude
   ) {
-    //We define a map which will store all the weather informations we need(at this time: location, temperature, weather condition, weather icon)
+    //We define a map that will store all the weather information we need(at this time: location, temperature, weather condition, weather icon)
     Map<String, String> weatherFactorsMap = new Map<String, String>();
 
-    //We define an http request
+    //We define an HTTP request
     Http http = new Http();
     HttpRequest request = new HttpRequest();
 
-    //We call the custom metadata type we created sooner(Key_Weather_API__mdt), to get the actual token, and in order to connect to the API
+    //We call the custom metadata type we created sooner(Key_Weather_API__mdt), to get the actual token, and to connect to the API
     String key = String.valueOf(
       Key_Weather_API__mdt.getInstance('API_Key').get('Key__c')
     );

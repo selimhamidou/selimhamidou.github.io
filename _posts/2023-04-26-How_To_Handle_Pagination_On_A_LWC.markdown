@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to handle pagination on a LWC"
+title: "How to handle pagination on an LWC"
 date: 2023-04-28 08:49:26 +0300
 categories: jekyll update
 ---
@@ -88,10 +88,10 @@ We first build the skeleton of our LWC. Nothing really magical here, I've just u
 
 
 <h3>JavaScript file</h3>
-The first step here is getting our request(given by the user), and the number of results per page. Right now the request has to be simple, with one "SELECT", one "FROM". Optionaly, the "WHERE" will work too, but we can't(now, at least) use nested soql.
+The first step here is getting our request(given by the user), and the number of results per page. Right now the request has to be simple, with one "SELECT", and one "FROM". Optionally, the "WHERE" will work too, but we can't(now, at least) use nested SOQL.
 
 {% highlight javascript %}
-//We import all our apex methods, and the keyword we are going to use
+//We import all our apex methods and the keyword we are going to use
 import { LightningElement, api, wire, track } from "lwc";
 import getTotalNumberOfResults from "@salesforce/apex/queryClass.getTotalNumberOfResults";
 import getResultsFromQuery from "@salesforce/apex/queryClass.getResultsFromQuery";
@@ -101,7 +101,7 @@ export default class Datatable extends LightningElement {
   //These two variables are directly set on the app builder, this is why I am using the api keyword
   @api query;
   @api ResultsPerPage;
-  //These two will be used to populate the datatable
+  //These two will be used to populate the data table
   @track columns = [];
   @track data = [];
 
@@ -114,8 +114,8 @@ export default class Datatable extends LightningElement {
   totalNumberOfResults;
   objectName; //the name is retrieved from a regex in the apex method getFieldsAndObjectNamesFromSoql
 
-  //This getter is not necessary in this situation, because the totalNumberOfPages is not goiing to change.
-  //But it could be changing in the future, if we add a feature to allow users to delete records for example
+  //This getter is not necessary in this situation, because the totalNumberOfPages is not going to change.
+  //But it could be changing in the future if we add a feature to allow users to delete records for example
   @api
   get totalNumberOfPages() {
     return Math.ceil(this.totalNumberOfResults / this.ResultsPerPage);
@@ -131,7 +131,7 @@ export default class Datatable extends LightningElement {
       this.errorOnNumberOfResults = error;
     }
   }
-  //We get all the fields and object name of the request => if the query is select id, name from Account, it will return a list with Id, Name, Account inside of it
+//We get all the fields and object names of the request => if the query is //SELECT id, name from Account, it will return a list with Id, Name, Account inside of it
   @wire(getFieldsAndObjectNamesFromSoql, {
     query: "$query"
   })
@@ -139,9 +139,9 @@ export default class Datatable extends LightningElement {
     if (data) {
       const dataClone = [...data]; // We clone the list to be able to manipulate our data
       this.objectName = dataClone.pop(); //We remove the last index(the object name) and we save them into a variable.
-      //We will only use it to display it as a title. The other indexes of the list will be used for the datatable
+      //We will only use it to display it as a title. The other indexes of the list will be used for the data table
       this.columns = dataClone.map((fieldName) => {
-        //We create the columns we are gonna use for the datatable
+        //We create the columns we are gonna use for the data table
         return {
           label: fieldName,
           fieldName: fieldName,
@@ -155,13 +155,13 @@ export default class Datatable extends LightningElement {
     }
   }
 
-  // With this method, we are doing a soql query everytime the page changes. The $ sign allows us to handle the case when one of our variables is null
+  // With this method, we are doing a SOQL query every time the page changes. The $ sign allows us to handle the case when one of our variables is null
   @wire(getResultsFromQuery, {
     query: "$query",
     ResultsPerPage: "$ResultsPerPage",
     pageNumber: "$pageNumber"
   })
-  //Same logic here: if we get data, we save it. If not, we don't, and save the error
+//Same logic here: if we get data, we save it. If not, we don't and save //the error
   wiredData({ error, data }) {
     if (data) {
       this.data = data;
@@ -200,7 +200,7 @@ export default class Datatable extends LightningElement {
   // Method to disable the "Next" and "Last" buttons
   @api
   get disableNextButtons() {
-    //Allows us to disable the "Next" and "Last" buttons when it's needed(ie when we are on last page for example)
+    //Allows us to disable the "Next" and "Last" buttons when it's needed(ie when we are on the last page for example)
     return (
       this.pageNumber === this.totalNumberOfPages ||
       this.totalNumberOfPages === 0
@@ -210,7 +210,7 @@ export default class Datatable extends LightningElement {
 {% endhighlight %}
 
 <h3>Apex Part</h3>
-There are three methods here. The first method, getResultsFromQuery, allows us to retrieve the results. Every time the page is changed (by clicking on "Next", for example), this method is called with a different OFFSET and the same LIMIT (which will be the number of results per page the user wants to retrieve). The second method will be called only once and will return a list of columns for the datatable. In this list, we have also added the name of the object to use it as the title of our LWC (in the HTML file). The last method will be used only to determine the number of results and will be helpful to know which pagination buttons are available for the user.
+There are three methods here. The first method, getResultsFromQuery, allows us to retrieve the results. Every time the page is changed (by clicking on "Next", for example), this method is called with a different OFFSET and the same LIMIT (which will be the number of results per page the user wants to retrieve). The second method will be called only once and will return a list of columns for the data table. In this list, we have also added the name of the object to use as the title of our LWC (in the HTML file). The last method will be used only to determine the number of results and will be helpful to know which pagination buttons are available for the user.
 
 {% highlight java %}
 public with sharing class queryClass {
@@ -228,7 +228,7 @@ public with sharing class queryClass {
   }
   @AuraEnabled(cacheable=true)
   public static List<String> getFieldsAndObjectNamesFromSoql(String query) {
-    //We use this method to display all the fields on the datatable
+    //We use this method to display all the fields on the data table
     query = query.toLowerCase(query);
     // We define the regex to get the name of the object
     Pattern objectPattern = Pattern.compile('from\\s+([\\w\\d_]+)\\s*');
@@ -241,7 +241,7 @@ public with sharing class queryClass {
         'Can\'t find the object name for the query: ' + query
       );
     }
-    // We do the same for the fields names
+    // We do the same for the names of the fields
     Pattern fieldPattern = Pattern.compile(
       'select\\s+((\\w+\\s*,\\s*)*\\w+)\\s+from\\s+' +
       objectName +
@@ -255,12 +255,12 @@ public with sharing class queryClass {
 
       fieldNames.add(objectName);
       for (Integer i = 0; i < fieldNames.size(); i++) {
-        fieldNames[i] = fieldNames[i].capitalize(); //If we don't set the first letters as uppercase, some differences may occur between the query results and this list, and the datatable will not display properly
+        fieldNames[i] = fieldNames[i].capitalize(); //If we don't set the first letters as uppercase, some differences may occur between the query results and this list, and the data table will not display properly
       }
       return fieldNames;
     } else {
       throw new QueryException(
-        'Can\'t find the fields names for the query: ' + query
+        'Can\'t find the names of the fields for the query: ' + query
       );
     }
   }
@@ -273,7 +273,7 @@ public with sharing class queryClass {
 {% endhighlight %}
 
 <h3>Result</h3>
-Now, users have just to choose a number of results per page and a query from the app builder, and...
+Now, users have just to choose some results per page and a query from the app builder, and...
 
 ![Result datatable app builder](/Images/datatable_app_builder.jpg)
 

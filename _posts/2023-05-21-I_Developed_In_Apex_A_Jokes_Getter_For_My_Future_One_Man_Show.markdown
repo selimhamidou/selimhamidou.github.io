@@ -1,38 +1,38 @@
 ---
 layout: post
-title: "I developed in Apex a jokes getter for my future one man show"
+title: "I developed in Apex a jokes getter for my future one-man show"
 date: 2023-05-21 20:10:26 +0200
 categories: jekyll update
 ---
 <br>![Joke API Result](/Images/Joke_API_Result.jpg)<br>
 
-<p>Hey! As a full time joker, I love to laugh. This development was, as the beginning, just a way to begin my days with something funny. Generally, daily meetings are at 10AM, so my goal was to receive each day a new joke I would remember about. And, at the middle of my development, I said: "Oh, why wouldn't I lanch my one man show? I can get all the jokes I want, WITH NO EFFORT AT ALL! 
-So, from this moment, the Salesforce notifications feed became a manager which is still ungry at 10AM, still giving me some jokes, but putting pressure on me like: "here is my jokes, you better be funny this time". 
-I automated a little bit more the process, by saving the jokes on a new object, and displaying the total number of them on the feed. But that's basically what my Salesforce development does: getting jokes, saving them, and displaying them on the screen. 
+<p>Hey! As a full-time joker, I love to laugh. This development was, as the beginning, just a way to begin my days with something funny. Generally, daily meetings are at 10AM, so my goal was to receive each day a new joke I would remember about. And, in the middle of my development, I said: "Oh, why wouldn't I launch my one-man show? I can get all the jokes I want, WITH NO EFFORT AT ALL! 
+So, from this moment, the Salesforce notifications feed became a manager who is still angry at 10AM, still giving me some jokes, but putting pressure on me like: "Here are my jokes, you better be funny this time". 
+I automated the process a little bit more, by saving the jokes on a new object and displaying the total number of them on the feed. But that's basically what my Salesforce development does: getting jokes, saving them, and displaying them on the screen. 
 So, here is the story behind this article.</p>
 
 <h3>Step one: Configuration</h3>
 <p>Now that you know everything about the context, let's move to the practical part. 
-To get the jokes, no need to scrape all the internet to get them. I used the <a href="https://api-ninjas.com/api/jokes">Joke API</a> from API Ninja. It allows us up to 50000 callout per month, so it's more than enough for our daily usage. To use it, you just have to sign up, and to go to <a href="https://api-ninjas.com/profile">your profile</a> to see your token. Keep this tab open, we will go back to this.</p>
+To get the jokes, no need to scrape the internet to get them. I used the <a href="https://api-ninjas.com/api/jokes">Joke API</a> from API Ninja. It allows us up to 50000 callouts per month, so it's more than enough for our daily usage. To use it, you just have to sign up and go to <a href="https://api-ninjas.com/profile">your profile</a> to see your token. Keep this tab open, we will go back to this.</p>
 ![Joke API Token](/Images/Joke_API_Token.jpg)
-<p>Now, we have to store this token.To do this, we create a custom metadata type called Joke_API_Integration__mdt with a custom field named Token__c. When the custom metadata type and the field are created, you can copy and paste the key on it.</p>
+<p>Now, we have to store this token. To do this, we create a custom metadata type called Joke_API_Integration__mdt with a custom field named Token__c. When the custom metadata type and the field are created, you can copy and paste the key on it.</p>
 ![Joke API Custom Metadata Type Fields](/Images/Joke_API_Mdt_Fields.jpg)
 <br><br>
 ![Joke API Custom Metadata Type Records](/Images/Joke_API_Mdt_Record.jpg)
 <p>The next thing to do is to authorize the connexion between Salesforce and the API. For this, we add a Remote Site Setting.</p>
 ![Joke API Remote Site Settings](/Images/Joke_API_Remote_Site_Settings.jpg)
 
-<p>And when it's done, we create a custom object called Joke_For_My_One_Man_Show__c, with the Joke__c field. it will be used to store our jokes, in the case we would like to read them again.</p>
+<p>And when it's done, we create a custom object called Joke_For_My_One_Man_Show__c, with the Joke__c field. it will be used to store our jokes, in case we would like to read them again.</p>
 ![Joke API Object Manager](/Images/Joke_API_Object_Manager.jpg)
 <br><br>
 ![Joke API Object Manager Field](/Images/Joke_API_Object_Manager_Field.jpg)
 
-<p>And now, let's move to the the notifications part. How to notify the user that a new joke is coming? We could use platform events, but it's not necessary. We also could use show toast events, but the problem is that the message would only show for a specific object, and not in the entire org. For our need, custom notifications is the perfect choice. By using them, we would allow users to see them, no matter they are in Salesforce. Now that we know this, we also have to know that a custom notification needs a type to exist. We create it by going to Setup->Custom Notifications->New. 
-When it's done, we can move to the Step 2.
+<p>And now, let's move to the notifications part. How to notify the user that a new joke is coming? We could use platform events, but it's not necessary. We also could use show toast events, but the problem is that the message would only show for a specific object, and not in the entire org. For our needs, custom notifications are the perfect choice. By using them, we would allow users to see them, no matter if they are in Salesforce. Now that we know this, we also have to know that a custom notification needs a type to exist. We create it by going to Setup->Custom Notifications->New. 
+When it's done, we can move to Step 2.
 ![Joke API Custom Notification Type](/Images/Joke_API_Custom_Notification_Type.jpg)
 
 <h3>Step 2: The Apex part</h3>
-<p>To be honest, I've reused the skeleton of the code of the <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">Twilio Integration I did yesterday</a>, because the notions involved are the same: we have to schedule a REST callout to an API, so we use the schedulable interface with a future method. As we will see later, some details are different between the two integrations, but there are still a lot of similarities.</p>
+<p>To be honest, I've reused the skeleton of the code of the <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">Twilio Integration I did yesterday</a> because the notions involved are the same: we have to schedule a REST callout to an API, so we use the schedulable interface with a future method. As we will see later, some details are different between the two integrations, but there are still a lot of similarities.</p>
 
 {% highlight java %}
 public with sharing class GetJokesFromAPIHandler implements Schedulable {
@@ -42,7 +42,7 @@ public with sharing class GetJokesFromAPIHandler implements Schedulable {
     String key = String.valueOf(
       Joke_API_Integration__mdt.getInstance('API_Token').get('Token__c')
     );
-    //We define the number of jokes we want from the callout. For us it's 1, but it could be changed
+    //We define the number of jokes we want from the callout. For us, it's 1, but it could be changed
     Integer NumberOfResults = 1;
 
     //We define a HTTP request
@@ -98,7 +98,7 @@ public with sharing class GetJokesFromAPIHandler implements Schedulable {
     // Create a new custom notification
     Messaging.CustomNotification notification = new Messaging.CustomNotification();
 
-    // We call insertNewJokeForMyOneManShow, and get the number of records inside the Joke_For_My_One_Man_Show__c object
+    // We call insertNewJokeForMyOneManShow and get the number of records inside the Joke_For_My_One_Man_Show__c object
     Integer numberOfJokesForTheOneManShow = insertNewJokeForMyOneManShow(joke);
     //We add the joke to the notifications
     notification.setTitle(
@@ -111,7 +111,7 @@ public with sharing class GetJokesFromAPIHandler implements Schedulable {
     // We set the notification type Id with the value we got from the previous SOQL
     notification.setNotificationTypeId(notificationType.Id);
     //We define the redirection link. We have to choose between the setTargetPageRef and the setTargetId method.
-    //We choosed the first one, because we prefer to redirect to a list view instead of a specific record, but it's up to you
+    //We chose the first one because we prefer to redirect to a list view instead of a specific record, but it's up to you
     //But you have to know that setting a value is mandatory here
     notification.setTargetPageRef(
       '{"type": "standard__objectPage","attributes": {"objectApiName": "Joke_For_My_One_Man_Show__c","actionName": "list"},"state":{"filterName":"00B0900000R6wKNEAZ"}}'

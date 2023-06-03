@@ -4,13 +4,13 @@ title:  "I created a new Salesforce Inspector with Lightning Web Components"
 date:   2023-05-10 19:49:26 +0200
 categories: jekyll update
 ---
-Ok the title could be confusing, because at this time, there is still a lot to do to get a new Salesforce Inspector.
+Ok, the title could be confusing because, at this time, there is still a lot to do to get a new Salesforce Inspector.
 But I am proud of this development because it handles data upsert really well, and I know that It has some room for improvement!
 
 ![Uploading CSV Files](/Images/jian-yang-new-internet.jpg)
 
 <h3>Step 1: HTML</h3>
-This part will be the skeleton of our LWC. It's completed now, but the important here is that the components I am using are simply: a lightning combobox as a picklist, a lightning file upload to handle the file uploadings, and a lightning button to allow the user to click on "Upsert records". We will simply use these elements from javascript to get(or give, following the case) some informations. These elements will be inside a Lightning card, but this is just for presentation purposes. And we also use SLDS classes to give our Lightning Web Component a more attractive appearance.
+This part will be the skeleton of our LWC. It's completed now, but the important here is that the components I am using are simply: a lightning combobox as a picklist, a lightning file upload to handle the file uploadings, and a lightning button to allow the user to click on "Upsert records". We will simply use these elements from javascript to get(or give, following the case) some information. These elements will be inside a Lightning card, but this is just for presentation purposes. And we also use SLDS classes to give our Lightning Web Component a more attractive appearance.
 
 {% highlight html %}
 <template>
@@ -63,7 +63,7 @@ This part will be the skeleton of our LWC. It's completed now, but the important
 {% endhighlight %}
 
 <h3>Step 2: JavaScript</h3>
-Here, the difficulty for me has been to handle the uploaded csv file. My goal was to use the FileReader object to read the CSV and then send it to my Apex method. Unfortunately, it didn't work, and while trying to find the reason, I discovered that the file was not recognized as a real file by the navigator. So, I have chosen something simpler but heavier in resources: I've gotten the file Id, and I've given it to the apex class, which has to perform a SOQL query to get the actual csv content.
+Here, the difficulty for me has been handling the uploaded csv file. My goal was to use the FileReader object to read the CSV and then send it to my Apex method. Unfortunately, it didn't work, and while trying to find the reason, I discovered that the file was not recognized as a real file by the navigator. So, I have chosen something simpler but heavier in resources: I've gotten the file Id, and I've given it to the apex class, which has to perform a SOQL query to get the actual csv content.
 
 {% highlight javascript %}
 import { LightningElement, wire } from "lwc";
@@ -81,15 +81,15 @@ export default class UpsertRecords extends LightningElement {
     return [".csv"];
   }
 
-  csvFileId; //This variable will be given to the UpsertRecordsFromCSV method, which will query the actual csv, and then, will manipulate it, and upsert some records
+  csvFileId; //This variable will be given to the UpsertRecordsFromCSV method, which will query the actual csv, then, will manipulate it, and upsert some records
   selectedObject = "Account"; //When the page loads, the selected object of the picklist is "Account", but it can change on the onchange event
 
   getSelectedObject(event) {
-    this.selectedObject = event.target.value; //When the user changes value, we save the new value inside the selectedObject variable
+    this.selectedObject = event.target.value; //When the user changes value, we save the new value inside the selected object variable
   }
 
   get objectNamesForPicklist() {
-    //Picklists in LWC need a list of objects to work. So, when we receive data on objectNames, we will handle the list to be able to display it on our picklist
+    //Picklists in LWC need a list of objects to work. So, when we receive data on object names, we will handle the list to be able to display it on our picklist
     //getter mehods are reactive
     return this.objectNames.map((str) => ({ label: str, value: str }));
   }
@@ -129,7 +129,7 @@ export default class UpsertRecords extends LightningElement {
         const failure = new ShowToastEvent({
           variant: "error",
           title: "Error",
-          message: "The upsert didn't worked!"
+          message: "The upsert didn't work!"
         });
         this.dispatchEvent(failure);
       });
@@ -140,7 +140,7 @@ export default class UpsertRecords extends LightningElement {
 
 <h3>Step 3: Apex</h3>
 The Apex class contains two methods: the first one, getObjectApiNames, is called by using the wire service(you can notice the cacheable=true) annotation, and the second one, UpsertRecordsFromCSV, is called imperatively.
-We also could have used imperative callouts for getObjectApiNames, it would have given us more control about when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
+We also could have used imperative callouts for getObjectApiNames, it would have given us more control over when we call Apex. The fact is that it's not necessary. We just need the data to be gotten when the page loads. We don't need for example to reload the data if the user clicks on a button.
 
 {% highlight java %}
 public with sharing class UpsertRecordsHandler {
@@ -150,7 +150,7 @@ public with sharing class UpsertRecordsHandler {
     String sObjectName,
     String csvFileId
   ) {
-    //We use the CSV File Id to query the uploaded document, and its content
+    //We use the CSV File Id to query the uploaded document and its content
     String csvAsString = [
         SELECT Id, VersionData
         FROM ContentVersion
@@ -163,7 +163,7 @@ public with sharing class UpsertRecordsHandler {
     List<String> csvLines = csvAsString.split('\n');
     List<String> headers = csvLines[0].split(',');
     List<SObject> recordsToHandle = new List<SObject>();
-    //Here we generalize the records creation/updating: we create an instance of Schema.SObjectType,
+    //Here we generalize the record's creation/updating: we create an instance of Schema.SObjectType,
     //and then we use the newSObject method
     //if the LWC was only for the Accounts, we would just use Account record = new Account()
     //But we can't here
@@ -184,7 +184,7 @@ public with sharing class UpsertRecordsHandler {
       return 'Error: ' + e.getMessage();
     }
   }
-  //This method's role is to get a list of all the api names of the org, and to give it to the LWC
+  //This method's role is to get a list of all the API names of the org and to give it to the LWC
   @AuraEnabled(cacheable=true)
   public static List<String> getObjectApiNames() {
     List<String> objectApiNames = new List<String>();
@@ -192,7 +192,7 @@ public with sharing class UpsertRecordsHandler {
       //We increment in Schema.getGlobalDescribe().Values()
       objectApiNames.add(objectType.getDescribe().getName()); //We get the name for each object, and save it to a list
     }
-    objectApiNames.sort(); //When we've treated all the object, we sort the list, to get ordered values on the picklist
+    objectApiNames.sort(); //When we've treated all the objects, we sort the list, to get ordered values on the picklist
     return objectApiNames; //We return the list to the LWC
   }
 }
@@ -214,7 +214,7 @@ It's up to you to modify it, to suit your needs.
 </LightningComponentBundle>
 {% endhighlight%}
 
-Now, you can  the result:
+Now, you can see the result:
 ![Final result](/Images/success_upload_csv.jpg)
 
 

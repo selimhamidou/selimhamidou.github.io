@@ -6,7 +6,7 @@ categories: jekyll update
 ---
 
 Hey! The truth behind this article is that I was speaking with my team of developers, and we love trying new restaurants,
-especially kebabs! But we were pretty unsure about which restaurant to give a try, every discussion about that was creating conflicts. So, I integrated ChatGPT with one of my Salesforce sandboxes to make this life changing choice...
+especially kebabs! But we were pretty unsure about which restaurant to give a try, every discussion about that was creating conflicts. So, I integrated ChatGPT with one of my Salesforce sandboxes to make this life-changing choice...
 
 <h3>Configuration Part</h3>
 First, we have to add a custom metadata type to store our variables. By doing this, Salesforce will store our sensitive data, and we will just have to access it from our code!
@@ -26,8 +26,8 @@ We create two new fields of type text: one for the token, and the second for the
 Here is the final state of our custom metadata type
 ![Creating Credentials Custom Metadata Type Final](/Images/credentials_mdt_final.jpg)
 <br><br><br>
-To get a token, you have to go to this link from the API we are using, and ask for a token:`https://platform.openai.com/account/api-keys`
-Then, copy the token in your Notepad.
+To get a token, you have to go to this link from the API we are using, and ask for a token: `https://platform.openai.com/account/api-keys`
+Then, copy the token into your Notepad.
 <br><br>
 ![Getting a token from OpenAI](/Images/credentials_mdt_final.jpg)
 
@@ -35,7 +35,7 @@ Now we add a record on our custom metadata type, with `https://api.openai.com/v1
 <br><br>
 ![Creating Credentials Custom Metadata Type Record For ChatGPT](/Images/credentials_mdt_chatgpt_record.jpg)
 
-We also have to add a remote site setting, to tell Salesforce that our endoint is legit, so we go to:
+We also have to add a remote site setting, to tell Salesforce that our endpoint is legit, so we go to:
 Setup -> Remote Site Settings -> New:
 <br><br>
 ![Creating a remote site setting for the endpoint](/Images/create_remote_site_setting.jpg)
@@ -43,7 +43,7 @@ Setup -> Remote Site Settings -> New:
 Now that everything is configured properly, we can move to the development part.
 
 <h3>HTML Part</h3>
-Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are adding an input("which are the best kebabs in Paris?) and an output("the best kebabs are x, y and z", which will be given by chatGPT itself!).
+The HTML part is pretty simple: we are drawing a card, and inside of it, we are adding an input("Which are the best kebabs in Paris?) and an output("The best kebabs are x, y, and z", which will be given by chatGPT itself!).
 
 {% highlight html %}
 <template>
@@ -76,7 +76,7 @@ Ths HTML part is pretty simple: we are drawing a card, and inside of it, we are 
 {% endhighlight %}
 
 <h3>JavaScript Part</h3>
-Basically, in this part, we get the question asked from the html part, and it's saved in the variable questionToAsk.
+Basically, in this part, we get the question asked from the HTML part, and it's saved in the variable questionToAsk.
 This variable will be used to call the callChatGPT apex method.
 The role of the javascript method `handleEnter` is simply to verify if the user typed the touch Enter. If he did, we call Apex. If he didn't, we don't.
 
@@ -118,7 +118,7 @@ console.log("there is an error: " + error);
 public class BackEndChatGPT {
   
   //We get the token and the endpoint from the custom metadata type Credentials__mdt, that we created before
-  //Using custom metadata type is a personal choice. I could have used custom setting instead, it would have worked the same
+  //Using custom metadata type is a personal choice. I could have used a custom setting instead, it would have worked the same
   private static String token = Credentials__mdt.getInstance('ChatGPT')
     .Token__c;
   private static String endpoint = Credentials__mdt.getInstance('ChatGPT')
@@ -141,7 +141,7 @@ req.setHeader('Authorization', 'Bearer ' + token);
 req.setHeader('content-type', 'application/json');
 req.setBody(body);
 HttpResponse res = h.send(req);
-//We check if the request has succeeded. If yes, we treat the response, and give it back to our LWC.
+//We check if the request has succeeded. If yes, we treat the response and give it back to our LWC.
 //If no, we simply return an empty string
 if (res.getStatusCode() == 200) {
 Map<String, Object> results = (Map<String, Object>) JSON.deserializeUntyped(

@@ -4,7 +4,7 @@ title:  "sfdx Survival book"
 date:   2023-04-21 19:49:26 +0200
 categories: jekyll update
 ---
-This post is not finished. At this time, I am using a lot sfdx, and instead of searching for the good informations everywhere in the web, I am just trying to get everything I need on the same place. So, I will begin with a couple of commands, and I will add some others, from time to time. 
+This post is not finished. At this time, I am using sfdx a lot, and instead of searching for good pieces of information everywhere on the web, I am just trying to get everything I need in the same place. So, I will begin with a couple of commands, and I will add some others, from time to time. 
 
 <h3>Create a project and authorize an org</h3>
 {% highlight shell %}
