@@ -277,6 +277,7 @@ return Database.query(query).size();
 <p>Now, users have just to choose some results per page and a query from the app builder, and...</p>
 
 ![Result datatable app builder](/Images/datatable_app_builder.jpg)
+<br>
 
 <h3>Sources</h3>
 <p>You can check these links, they are very useful:</p>
