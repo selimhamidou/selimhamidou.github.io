@@ -231,7 +231,7 @@ public static List<String> getFieldsAndObjectNamesFromSoql(String query) {
 //We use this method to display all the fields on the data table
 query = query.toLowerCase(query);
 // We define the regex to get the name of the object
-Pattern objectPattern = Pattern.compile('from\\s+([\\w\\d_]+)\\s_');
+Pattern objectPattern = Pattern.compile('from\\s+([\\w\\d_]+)\\s*');
 Matcher objectMatcher = objectPattern.matcher(query);
 String objectName = '';
 if (objectMatcher.find()) {
@@ -243,9 +243,9 @@ throw new QueryException(
 }
 // We do the same for the names of the fields
 Pattern fieldPattern = Pattern.compile(
-'select\\s+((\\w+\\s*,\\s*)_\\w+)\\s+from\\s+' +
+'select\\s+((\\w+\\s*,\\s*)*\\w+)\\s+from\\s+' +
 objectName +
-'\\s_'
+'\\s\_'
 );
 Matcher fieldMatcher = fieldPattern.matcher(query);
 if (fieldMatcher.find()) {
@@ -277,6 +277,7 @@ return Database.query(query).size();
 <p>Now, users have just to choose some results per page and a query from the app builder, and...</p>
 
 ![Result datatable app builder](/Images/datatable_app_builder.jpg)
+<br>
 
 <h3>Sources</h3>
 <p>You can check these links, they are very useful:</p>
