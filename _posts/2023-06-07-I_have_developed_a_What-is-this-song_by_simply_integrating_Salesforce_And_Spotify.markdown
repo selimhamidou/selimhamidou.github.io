@@ -217,3 +217,5 @@ We keep it simple, paint it blank, and will add some elements inside it */
 <li><a href="https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.apex_call_imperative">Imperative Callouts in LWC</a></li>
 <li><a href="https://github.com/selimhamidou/Salesforce-x-Spotify-API">The Github repository</a></li>
 </ul>
+<br>
+Sélim HAMIDOU
