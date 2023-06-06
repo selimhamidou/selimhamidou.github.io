@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I've developed a What is playing on Spotify LWC by integrating Spotify on Salesforce"
+title: "I've integrated Spotify with Salesforce to know what song is currently playing."
 date: 2023-06-06 08:49:26 +0300
 categories: jekyll update
 ---
