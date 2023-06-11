@@ -4,16 +4,24 @@ title: "I tried to receive Salesforce real-time notifications about the UCL Fina
 date: 2023-06-11 09:00:00 +0300
 categories: jekyll update
 ---
+<br>
 ![Mourinho](/Images/Football_API_Mourinho.jpg)
+*I personally can't see any link between this image and the article, but I find it fun. Oh, maybe the link is that Mourinho cannot hear the real-time notifications, as for me on this development?*
 <br>
 <p>Hi! What's up? This post is really special because I've failed to implement it. You know that the last Saturday was the day of the UCL Final. Manchester City had to win it for the first time in their history, and Inter Milan had the chance to win their first Champions since 2010. So, I was imagining my evening like this: I would be watching the match(I mean, really watching), and from time to time, I would go to Salesforce, to verify if I had received some notifications about a new goal. But it didn't go well...So, I consider this development as a failure, and I would be glad if it turned out differently, but that's how life is, I think. So, I am not very proud of this development, because I could have done so much better, but I still would like to show it to you.</p>
 <p>It didn't go well because I didn't test it well. Football APIs are pretty expensive. The free version of the API I used was only allowing 100 callouts a day. So, I only tested it once, on Friday night, and I considered that the response's shape would be significantly the same, which wasn't true. I was thinking I was ready, but I was not.</p>
 <p>My errors led me to encounter some errors, like "NullPointerExceptions" or "List index out of bounds" errors, or even by giving the wrong endpoint while trying to call the API for a specific match. Errors are very common where you are a developer, but they wouldn't have been a problem if I did proper testing. So, I can't stress you enough about testing and retesting your code, I guess that Murphy's law was right.</p>
+<br>
 ![Murphy's Law](/Images/Football_API_Murphy_Law.jpg)
+<br>
 <p>Now, let's move to the integration. I've used Apex from the beginning to the end for this integration. I wanted some real-time notifications, so I've thought about using webhooks, but unfortunately, they weren't provided by the API I've used. I wouldn't be surprised if tomorrow you contacted me on Linkedin, to tell me "Oh yes, webhooks exist for some football APIs, like THIS ONE". Honestly, I would love to hear from you, because it would make this idea prettier than it is right now. But, for now, I've simply followed the official documentation, which is telling us that updates are done every 15 seconds on the API and that it is advised to call the API every minute to get "real-time" data. We will be satisfied with that for now. And as the timing was pretty tight, I am seeing so much to do to improve my code. Again, DON'T HESITATE to reach me. I would be happy to talk about it.</p>
 <h3>Step one: The API</h3>
 <p> In the beginning, I was hesitating between two APIs. Finally, I've used <a href="https://www.api-football.com/">API-Football</a>, because it was giving access to lesser-known leagues for free(at the time I was doing this development, all the European leagues had finished their season, the only match to play was our match). Also, the free version only allows for 100 requests a day, but by thinking again about it, I could have used a paid version for this development, it's still cheaper than some other APIs. So, I've subscribed to the free version from <a href="https://rapidapi.com/api-sports/api/api-football-beta">Rapid API</a>. I've used the beta version of the API because this one wasn't asking me to enter my personal credit card information, instead of the proper version.</p>
-<p>After being a subscriber, I've scraped the official documentation, to know what exactly to do to get the information I needed(ie the scored goals). I've finally found out that a match was a "fixture" according to this API, and that every "fixture" had an id. I still don't know when the fixture is updated, but I've considered getting it at the hour of the match. So, my plan was to make a first callout to get the fixture id, to save it to my org, and then to make some other callouts(every 3 minutes), to know if someone scored. If yes, I would have sent a notification to the current user(me). If not, nothing would happen. And my question was, how to know if a new goal has been scored? I mean, by doing exactly this, we would receive a notification every 3 minutes after the first goal of the match has been scored. Because the code will, every 3 minutes, scrape the JSON, find a goal, and then say "Great, there is a goal!". To avoid this, I've decided to store the data on a Match__c record. So, at the beginning of the match, I would create a record storing the fixture id, and the number of goals scored(which is 0 at this time). Before the final, my code was looking for the goals node, assembling the "home" and "away" nodes values into a string, and saving them inside my Match__c record. Unfortunately, as I said, this node was absent during the match. So instead, I created another field, numberOfGoalsScored__c, of type Number, and I was counting the number of goals instead of directly getting it from the API.</p>
+<p>After being a subscriber, I've scraped the official documentation, to know what exactly to do to get the information I needed(ie the scored goals). I've finally found out that a match was a "fixture" according to this API, and that every "fixture" had an id. I still don't know when the fixture is updated, but I've considered getting it at the hour of the match. So, my plan was to make a first callout to get the fixture id, to save it to my org, and then to make some other callouts(every 3 minutes), to know if someone scored. If yes, I would have sent a notification to the current user(me). If not, nothing would happen. And my question was, how to know if a new goal has been scored? I mean, by doing exactly this, we would receive a notification every 3 minutes after the first goal of the match has been scored. Because the code will, every 3 minutes, scrape the JSON, find a goal, and then say "Great, there is a goal!". To avoid this, I've decided to store the data on a Match__c record.</p>
+<br>
+![Match__c object](/Images/Football_API_Match_Object_Fields.jpg)
+<br>
+<p>So, at the beginning of the match, I would create a record storing the fixture id, and the number of goals scored(which is 0 at this time). Before the final, my code was looking for the goals node, assembling the "home" and "away" nodes values into a string, and saving them inside my Match__c record. Unfortunately, as I said, this node was absent during the match. So instead, I created another field, numberOfGoalsScored__c, of type Number, and I was counting the number of goals instead of directly getting it from the API.</p>
 <p>Now that my plan was set, I've taken my credential and copied it to a custom metadata type. This API doesn't have OAUth according to the documentation, but I can be wrong. Doesn't hesitate to correct me. In all cases, while using custom metadata types to store credentials, it's necessary to set the custom metadata types records as "Protected".</p>
 <br>
 ![Custom Metadata Type Record](/Images/Football_API_Custom_Metadata_Type_Record.jpg)
@@ -21,10 +29,11 @@ categories: jekyll update
 <p>When it's done, we go to the Remote site settings and create one.</p>
 <br>
 ![Remote Site Setting](/Images/Football_API_Remote_Site_Settings.jpg)
-
+<br>
 <p>To finish the configuration part, I have also created a custom notification type, as I did for my previous article about the <a href="https://www.selimhamidou.com/posts/I_Developed_In_Apex_A_Jokes_Getter_For_My_Future_One_Man_Show">jokes getter</a>.</p>
+<br>
 ![Custom Notification Type](/Images/Football_API_Custom_Notification.jpg)
-
+<br>
 <h3>Step 2: The Apex code</h3>
 <p>You have to know here that you can't directly schedule a job to run every three minutes. The minimum time to set between two jobs is one hour. So, to avoid this(I had to launch a job every 3 minutes, I couldn't wait for so long to get the score), I used nested jobs: I call once a first schedulable job, which will call itself 3 minutes later. And again, 3 minutes later. And so on.</p>
 {% highlight java %}
@@ -259,6 +268,10 @@ System.schedule('First Job', '0 30 16 11 06 ?', new footballAPIHandler());
 {% endhighlight %}
 <br>
 <p>And now...it should be working...</p>
+<p>Finally, I finished to receive the Rodri's goal notification one hour after the end of the match.</p>
+<br>
+![Result](/Images/Football_API_Result.jpg)
+<br>
 <h3>Sources</h3>
 <ul>
   <li><a href="https://github.com/selimhamidou/Football_API">Github repo</a></li>
