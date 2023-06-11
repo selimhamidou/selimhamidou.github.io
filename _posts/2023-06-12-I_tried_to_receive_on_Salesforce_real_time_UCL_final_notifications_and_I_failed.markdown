@@ -251,7 +251,7 @@ public with sharing class footballAPIHandler implements Schedulable {
     }
   }
 }
-
+{% endhighlight  %}
 <p>When the code has been written, I launched it from the Anonymous developer console. It's not mandatory, I could have launched it from Setup->Apex classes->Schedule Apex. I still have a preference for the first way, because it's more precise, but I have to admit that the second one is more user-friendly. On both ways, I can ask Salesforce to launch my code exactly at 9PM(which was the time when the match had to begin).</p>
 {% highlight java %}
 System.schedule('First Job', '0 30 16 11 06 ?', new footballAPIHandler());
