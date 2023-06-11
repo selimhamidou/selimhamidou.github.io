@@ -4,7 +4,8 @@ title: "I tried to receive Salesforce real-time notifications about the UCL Fina
 date: 2023-06-11 09:00:00 +0300
 categories: jekyll update
 ---
-
+![Mourinho](/Images/Football_API_Mourinho.jpg)
+<br>
 <p>Hi! What's up? This post is really special because I've failed to implement it. You know that the last Saturday was the day of the UCL Final. Manchester City had to win it for the first time in their history, and Inter Milan had the chance to win their first Champions since 2010. So, I was imagining my evening like this: I would be watching the match(I mean, really watching), and from time to time, I would go to Salesforce, to verify if I had received some notifications about a new goal. But it didn't go well...So, I consider this development as a failure, and I would be glad if it turned out differently, but that's how life is, I think. So, I am not very proud of this development, because I could have done so much better, but I still would like to show it to you.</p>
 <p>It didn't go well because I didn't test it well. Football APIs are pretty expensive. The free version of the API I used was only allowing 100 callouts a day. So, I only tested it once, on Friday night, and I considered that the response's shape would be significantly the same, which wasn't true. I was thinking I was ready, but I was not.</p>
 <p>My errors led me to encounter some errors, like "NullPointerExceptions" or "List index out of bounds" errors, or even by giving the wrong endpoint while trying to call the API for a specific match. Errors are very common where you are a developer, but they wouldn't have been a problem if I did proper testing. So, I can't stress you enough about testing and retesting your code, I guess that Murphy's law was right.</p>
