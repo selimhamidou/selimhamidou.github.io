@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I tried to receive Salesforce real-time notifications about the UCL Final, and I failed..."
+title: "I tried to receive Salesforce real-time notifications about the UEFA Champions League Final, and I failed..."
 date: 2023-06-11 09:00:00 +0300
 categories: jekyll update
 ---
