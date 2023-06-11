@@ -4,7 +4,6 @@ title: "I tried to receive Salesforce real-time notifications about the UEFA Cha
 date: 2023-06-11 09:00:00 +0300
 categories: jekyll update
 ---
-<br>
 ![Mourinho](/Images/Football_API_Mourinho.jpg)
 *I personally can't see any link between this image and the article, but I find it fun. Oh, maybe the link is that Mourinho cannot hear the real-time notifications, as for me on this development?*
 <br>
