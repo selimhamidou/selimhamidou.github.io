@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I boosted the productivity of my service users with this simple apex code"
-date: 2023-05-21 19:55:00 +0200
+date: 2023-06-21 19:55:00 +0200
 categories: jekyll update
 ---
 
