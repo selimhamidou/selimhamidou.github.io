@@ -217,4 +217,4 @@ It's up to you to modify it, to suit your needs.
 Now, you can see the result:
 ![Final result](/Images/success_upload_csv.jpg)
 
-
+Sélim HAMIDOU

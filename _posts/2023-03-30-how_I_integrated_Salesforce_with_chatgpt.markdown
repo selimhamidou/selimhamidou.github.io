@@ -182,3 +182,5 @@ Now that we have deployed everything to our Salesforce org, we can go to the app
 <h3>And, the final winner is...</h3>
 <br>
 ![Best kebabs of Paris](/Images/final_result_chatgpt.jpg)
+
+Sélim HAMIDOU

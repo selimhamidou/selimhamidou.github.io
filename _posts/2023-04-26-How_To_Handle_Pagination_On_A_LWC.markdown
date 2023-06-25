@@ -286,3 +286,5 @@ return Database.query(query).size();
 <li><a href="https://developer.salesforce.com/blogs/2014/08/paginating-data-for-force-com-applications">Pagination Salesforce Documentation</a></li>
 <li><a href="https://github.com/selimhamidou/Dynamic-Datatable.git">The Github repository</a></li>
 </ul>
+
+Sélim HAMIDOU

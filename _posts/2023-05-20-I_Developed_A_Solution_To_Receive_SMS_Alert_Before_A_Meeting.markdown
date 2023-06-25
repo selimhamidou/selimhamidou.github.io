@@ -240,6 +240,7 @@ global with sharing class twilioHandler implements Schedulable {
   <li><a href="https://www.twilio.com/docs/usage/api?code-sample=code-send-a-simple-sms-using-the-programmable-sms-api&code-language=curl&code-sdk-version=json">Twilio API doc</a></li>
 </ul>
 
+Sélim HAMIDOU
 
 
 

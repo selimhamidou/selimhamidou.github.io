@@ -30,3 +30,5 @@ sfdx force:source:deploy --manifest path/to/manifest/manifest.xml -l RunSpecifie
 sfdx force:apex:test:run --classnames "TestA,TestB" --resultformat tap --codecoverage
 sfdx force:apex:test:run --tests "ns.TestA.excitingMethod,ns.TestA.boringMethod,ns.TestB"
 {% endhighlight %}
+
+Sélim HAMIDOU

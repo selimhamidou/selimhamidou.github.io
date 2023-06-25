@@ -246,3 +246,5 @@ System.schedule('Send SMS to service users', '0 27 15 ? * MON-FRI', new CaseMana
   <li><a href="https://help.salesforce.com/s/articleView?id=sf.customize_functions_priorvalue.htm&type=5">PRIORVALUE on formula fields</a></li>
   <li><a href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm">How to schedule apex code</a></li>
 </ul>
+
+Sélim HAMIDOU

@@ -277,6 +277,6 @@ export default class RestaurantsNearMeMap extends LightningElement {
   <li><a href="https://github.com/selimhamidou/pizzeriasNearMe">Github repo</a></li>
 </ul>
 
-
+Sélim HAMIDOU
 
 
