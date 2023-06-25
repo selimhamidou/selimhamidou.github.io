@@ -1,0 +1,109 @@
+public with sharing class SlackIntegrationHandler implements Schedulable{
+    @future(callout=true)
+    public static String getChannelId(){
+            system.debug('test inside callslack');
+    String channelId;
+    HttpRequest req = new HttpRequest();
+    req.setEndpoint('callout:Slack_API/conversations.list');
+    //req.setEndpoint('https://slack.com/api/chat.postMessage');
+    //req.setEndpoint('https://slack.com/api/conversations.list');
+    //req.setBody('{"channel":"C05AQ1Q46QM", "text":"wesh cousin"}');
+    //req.setBody('{"channel":"C0530HXBCGP","text":"Wesh"}');
+    req.setMethod('GET');
+    req.setHeader('Content-Type', 'application/json');
+    Http http = new Http();
+    HTTPResponse res = http.send(req);
+    System.debug(res.getBody());
+    //insert new Saved_JSON__c(name='allConversationsSlack', json__c=res.getBody());
+    if (res.getStatusCode()==200){
+      Map<String, Object> desRes=(Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+      List<Object> channelsList=(List<Object>) desRes.get('channels');
+      for (Object eachChannel:channelsList){
+        Map<String, Object> eachChannelMap=(Map<String, Object>) eachChannel;
+        if (eachChannelMap.get('name')=='retoursxp'){
+          channelId=String.valueOf(eachChannelMap.get('id'));
+        }
+      }
+    }
+    //system.debug('test channelId: '+channelId);
+    return channelId;
+    }
+  @future(callout=true)
+  public static String callSlack(String channelId) {
+    String extractedEmoji;
+    HttpRequest req2 = new HttpRequest();
+    //req2.setEndpoint('https://slack.com/api/conversations.history?channel='+channelId);
+    req2.setEndpoint('callout:Slack_API/conversations.history?channel='+channelId);
+    system.debug(req2.getBody());
+    req2.setMethod('GET');
+    Http http2 = new Http();
+    HTTPResponse res2 = http2.send(req2);
+    system.debug('test res2 status code: '+res2.getStatusCode());
+    System.debug(res2.getBody());
+        //insert new Saved_JSON__c(name='EmojiTestConversationsSlack', json__c=res2.getBody());
+        if (res2.getStatusCode()==200){
+          Map<String, Object> desRes=(Map<String, Object>) JSON.deserializeUntyped(res2.getBody());
+          List<Object> messages=(List<Object>) desRes.get('messages');
+          for (Object eachMessage:messages){
+            system.debug('test eachMessage: '+eachMessage);
+            Map<String, Object> message=(Map<String, Object>)eachMessage;
+            system.debug('test message: '+message);
+            //return extractEmojis(String.valueOf(message.get('text')));
+            extractedEmoji=extractEmojis(String.valueOf(message.get('text')));
+              if (extractedEmoji!=null){
+                  return extractedEmoji;
+              }
+          }
+
+        }
+        return null;
+  }
+    @future(callout=true)
+    public static void postMessageToSlack(String channelId, String message){
+        HttpRequest req = new HttpRequest();
+    req.setEndpoint('callout:Slack_API/chat.postMessage');
+    //req.setEndpoint('https://slack.com/api/chat.postMessage');
+    //req.setEndpoint('https://slack.com/api/conversations.list');
+    //req.setBody('{"channel":"C05AQ1Q46QM", "text":"wesh cousin"}');
+    req.setBody('{"channel":"'+channelId+'","text":"'+message+'"}');
+    req.setMethod('POST');
+    req.setHeader('Content-Type', 'application/json');
+    Http http = new Http();
+    HTTPResponse res = http.send(req);
+    System.debug(res.getBody());
+    //insert new Saved_JSON__c(name='allConversationsSlack', json__c=res.getBody());
+    if (res.getStatusCode()==200){
+        system.debug('Ok');
+    }
+    }
+    public static void execute(SchedulableContext SC){
+      String channelId=getChannelId();
+      String emojis=callSlack(channelId);
+      String questionToAsk='I have 3 emojis which represent one film. I want you to guess what is the film. You have to answer by only giving the film name. No other words. Here are the 3 emojis: '+emojis;
+        system.debug('test questionToAsk: '+questionToAsk);
+      //return BackEndChatGPT.callChatGPT(questionToAsk);
+      postMessageToSlack(channelId, BackEndChatGPT.callChatGPT(questionToAsk));
+
+    }
+    public static String extractEmojis(String phrase) {
+        String emojis = '';
+        
+        // Find all occurrences of emojis in the phrase
+        Pattern pattern = Pattern.compile(':\\w+:');
+        Matcher matcher = pattern.matcher(phrase);
+        
+        Integer count = 0;
+        while (matcher.find()) {
+            count++;
+            emojis += matcher.group();
+        }
+        
+        // If the number of extracted emojis is not equal to 3, return an empty string
+        if (count != 3) {
+            //emojis = '';
+            return null;
+        }
+        
+        return emojis;
+    }
+}
