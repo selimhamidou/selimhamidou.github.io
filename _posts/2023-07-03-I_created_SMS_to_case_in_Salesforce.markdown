@@ -17,7 +17,7 @@ You agree that, if we had to develop a new Email-to-case, we would use an inboun
 
 Ok, now, what is the difference between Email-to-case and SMS-to-case? It has no differences. You receive a message from a user, and you handle it. Ok, I am oversimplifying it, but that's the truth. We get a message from somewhere, and we use it to create a case. Now, what is this "somewhere"? 
 
-To answer this last question, we have to know what a webhook is. A webhook is a function that will send a notification to a URL every time an event is firing. It's like platform events, but not in Salesforce. Webhooks are not something we can use with every API. For example, it's not available with the <a href=”https://www.selimhamidou.com/posts/I_tried_to_receive_on_Salesforce_real_time_UCL_final_notifications_and_I_failed”>football API I was using to receive goal notifications during the last UCL Final.</a>
+To answer this last question, we have to know what a webhook is. A webhook is a function that will send a notification to a URL every time an event is firing. It's like platform events, but not in Salesforce. Webhooks are not something we can use with every API. For example, it's not available with the <a href="https://www.selimhamidou.com/posts/I_tried_to_receive_on_Salesforce_real_time_UCL_final_notifications_and_I_failed">football API I was using to receive goal notifications during the last UCL Final.</a>
 
 To determine which API to use to create this solution, we have to wonder which API can both send and receive SMS. Twilio is the simplest solution to do it. That means that we can send an SMS to a specific phone number, and it will be received by Twilio. And the last thing, webhooks are supported. So, Twilio looks like the perfect solution for our needs.
 
@@ -50,7 +50,7 @@ The template doesn't have any importance right here. The role of the website is 
 
 
 ### Handling Twilio webhook verification
-This part is really important. Imagine that you are someone mean and that you want to post some wrong data on my Salesforce organization. We want to avoid this. But how? With the Apex Crypto class. I took some time to understand this concept, but in fact, it's pretty simple: Twilio is sending you some data. With its data, it's giving you a signature on the header, basically saying "Hey, that's me!". Our job now is to calculate the key from the elements you got and compare both. If both have the same signature, that means that the entity which is trying to connect with us is Twilio, and not someone else. But still, be careful: the encryption algorithm and data involved are not the same with every API. You have read the documentation first.
+This part is really important. Imagine that you are someone mean and that you want to post some wrong data on my Salesforce organization. We want to avoid this. But how? With the Apex Crypto class. I took some time to understand this concept, but in fact, it's pretty simple: Twilio is sending you some data. With its data, it's giving you a signature on the header, basically saying "Hey, that's me!". Our job now is to calculate the key from the elements you got and compare both. If both have the same signature, that means that the entity which is trying to connect with us is Twilio, and not someone else. But still, be careful: the encryption algorithm and data involved are not the same with every API. You have to read the documentation first.
 
 
 <img src="https://assets.cdn.prod.twilio.com/images/sms-http-request-cycle.width-800.gif">
