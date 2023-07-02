@@ -11,40 +11,42 @@ Hey! I am proud of this one. I am betting that in every project you have been wo
 I know that Email-to-case is a popular feature right now, but...what about SMS-To-Case? We all have a mobile phone in our pocket. It would be great if we could reach the customer service by SMS when a product we bought doesn’t work as expected. After the interaction, a case would be created, or at least handled, as it is already the case with Email-To-Case. Unfortunately, this feature doesn’t exist yet, so, let’s remediate this.</p>
 
 
-Step one: Let's think for a minute...How we can do it?
+### Step one: Let's think for a minute...How we can do it?
 
 You agree that, if we had to develop a new Email-to-case, we would use an inbound email handler(which is just an Apex class that is doing something every time your Salesforce org is getting an Email(to an address we would have defined before)).</p>
 
-<p>Ok, now, what is the difference between Email-to-case and SMS-to-case? It has no differences. You receive a message from a user, and you handle it. Ok, I am oversimplifying it, but that's the truth. We get a message from somewhere, and we use it to create a case. Now, what is this "somewhere"? 
+Ok, now, what is the difference between Email-to-case and SMS-to-case? It has no differences. You receive a message from a user, and you handle it. Ok, I am oversimplifying it, but that's the truth. We get a message from somewhere, and we use it to create a case. Now, what is this "somewhere"? 
 
-To answer this last question, we have to know what a webhook is. A webhook is a function that will send a notification to a URL every time an event is firing. It's like platform events, but not in Salesforce. Webhooks are not something we can use with every API. For example, it's not available with the <a href=”https://www.selimhamidou.com/posts/I_tried_to_receive_on_Salesforce_real_time_UCL_final_notifications_and_I_failed”>football API I was using to receive goal notifications during the last UCL Final.</a></p>
+To answer this last question, we have to know what a webhook is. A webhook is a function that will send a notification to a URL every time an event is firing. It's like platform events, but not in Salesforce. Webhooks are not something we can use with every API. For example, it's not available with the <a href=”https://www.selimhamidou.com/posts/I_tried_to_receive_on_Salesforce_real_time_UCL_final_notifications_and_I_failed”>football API I was using to receive goal notifications during the last UCL Final.</a>
 
-<p>To determine which API to use to create this solution, we have to wonder which API can both send and receive SMS. Twilio is the simplest solution to do it. That means that we can send an SMS to a specific phone number, and it will be received by Twilio. And the last thing, webhooks are supported. So, Twilio looks like the perfect solution for our needs.</p>
+To determine which API to use to create this solution, we have to wonder which API can both send and receive SMS. Twilio is the simplest solution to do it. That means that we can send an SMS to a specific phone number, and it will be received by Twilio. And the last thing, webhooks are supported. So, Twilio looks like the perfect solution for our needs.
 
 
 <h3>Wow! How do we begin?</h3>
 
-<p>To integrate Salesforce with Twilio API, and if you have never developed a solution to <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">handle SMS alerts on Salesforce</a>, I invite you to follow <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">this link</a>. It will show you step by step how to connect your Salesforce organization with Twilio API.</p>
+To integrate Salesforce with Twilio API, and if you have never developed a solution to <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">handle SMS alerts on Salesforce</a>, I invite you to follow <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">this link</a>. It will show you step by step how to connect your Salesforce organization with Twilio API.
 
-<p>When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can manage your Twilio phone numbers. You can also create new numbers by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. 
+When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can manage your Twilio phone numbers. You can also create new numbers by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. 
 
-So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. To know the URL we are using as a webhook endpoint, we have to go back to Salesforce for this.</p>
+So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. To know the URL we are using as a webhook endpoint, we have to go back to Salesforce for this.
 <br>
 ![Twilio settings](/Images/SMS_to_case_twilio_setting.jpg)
 <br><br>
 ![Twilio configuration](/Images/SMS_to_case_twilio_config.jpg)
 <br><br>
-<p>Let's recap a little bit: a user is sending an SMS to a Twilio number. Boum, there is an event on Twilio. Now, we got to send this event to an URL, but what URL? It's really simple. We create a public site. This site will have an URL and will be associated with a web service. That means that every time we "visit" this website(not a visit, I mean every time we send a request to this website), some Apex code is executed. So, let's go! Let's create this site! </p>
+Let's recap a little bit: a user is sending an SMS to a Twilio number. Boum, there is an event on Twilio. Now, we got to send this event to an URL, but what URL? It's really simple. We create a public site. This site will have an URL and will be associated with a web service. That means that every time we "visit" this website(not a visit, I mean every time we send a request to this website), some Apex code is executed. So, let's go! Let's create this site!
 <br>
 ![Public site creation](/Images/SMS_to_case_site.jpg)
 <br><br>
 ![Public site endpoint](/Images/SMS_to_case_site_domain.jpg)
 <br>
-<p>The template doesn't have any importance right here. The role of the website is just to provide an address we can use. You can copy and paste this address to the Twilio console. You also have to add '/services/apexrest/' at the end of the endpoint.</p>
-<h3>Handling Twilio webhook verification</h3>
-<p>This part is really important. Imagine that you are someone mean and that you want to post some wrong data on my Salesforce organization. We want to avoid this. But how? With the Apex Crypto class. I took some time to understand this concept, but in fact, it's pretty simple: Twilio is sending you some data. With its data, it's giving you a signature on the header, basically saying "Hey, that's me!". Our job now is to calculate the key from the elements you got and compare both. If both have the same signature, that means that the entity which is trying to connect with us is Twilio, and not someone else. But still, be careful: the encryption algorithm and data involved are not the same with every API. You have read the documentation first. </p>
+The template doesn't have any importance right here. The role of the website is just to provide an address we can use. You can copy and paste this address to the Twilio console. You also have to add '/services/apexrest/' at the end of the endpoint.
 
-<p> Here is the Apex code. We send an SMS to Twilio. An event is created on Twilio. It fires Twilio's webhook, which is sending a POST request to our web service. That's good news because our web service has precisely a method to handle POST callouts. So the first thing we do is verify if the request is legit. If it's not, we simply throw an error. If it is, we look for a case number on the SMS body. If a current case number exists on the SMS body, we reopen the case and add some information to this case. If it doesn't exist, we create a new case with the information we get from the SMS. In all cases, we send a response by SMS(the SMS model is stored inside a custom label).</p>
+
+### Handling Twilio webhook verification
+This part is really important. Imagine that you are someone mean and that you want to post some wrong data on my Salesforce organization. We want to avoid this. But how? With the Apex Crypto class. I took some time to understand this concept, but in fact, it's pretty simple: Twilio is sending you some data. With its data, it's giving you a signature on the header, basically saying "Hey, that's me!". Our job now is to calculate the key from the elements you got and compare both. If both have the same signature, that means that the entity which is trying to connect with us is Twilio, and not someone else. But still, be careful: the encryption algorithm and data involved are not the same with every API. You have read the documentation first.
+
+Here is the Apex code. We send an SMS to Twilio. An event is created on Twilio. It fires Twilio's webhook, which is sending a POST request to our web service. That's good news because our web service has precisely a method to handle POST callouts. So the first thing we do is verify if the request is legit. If it's not, we simply throw an error. If it is, we look for a case number on the SMS body. If a current case number exists on the SMS body, we reopen the case and add some information to this case. If it doesn't exist, we create a new case with the information we get from the SMS. In all cases, we send a response by SMS(the SMS model is stored inside a custom label).
 <br>
 <img src="https://assets.cdn.prod.twilio.com/images/sms-http-request-cycle.width-800.gif">
 <br>
