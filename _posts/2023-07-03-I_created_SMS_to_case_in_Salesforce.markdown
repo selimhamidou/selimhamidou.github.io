@@ -11,7 +11,7 @@ categories: jekyll update
 <p>The million dollars question has a simple answer. You agree that, if we had to develop a new Email-to-case, we would use an inbound email handler(which is just an Apex class that is doing something every time your Salesforce org is getting an Email(to an address we would have defined before)).</p> 
 <p>Ok, now, what is the difference between Email-to-case and SMS-to-case? It has no differences. You receive a message, and you handle it. Ok, I am oversimplifying it, but that's the truth. We get a message from somewhere, and we use it to create a case. Now, what is this "somewhere"? To answer this last question, we have to know what a webhook is. A webhook is a function that will send a notification to a URL every time an event is firing. It's like platform events, but not in Salesforce. Webhooks are not something we can use with every API. For example, it's not available with the football API I was using to receive goal notifications during the last UCL Final.</p> 
 <p>To determine which API to use to create this solution, we have to wonder which API can both send and receive SMS. Twilio API does the job. We already used it to send SMS, and it was working great. By scrolling through the documentation, I've seen that we can receive SMS from Twilio. That means that we can send an SMS to a specific phone number, and it will be received by Twilio. And the last thing, webhooks are supported. So, Twilio looks like the perfect solution for our needs.</p>
-
+<img src="https://assets.cdn.prod.twilio.com/images/sms-http-request-cycle.width-800.gif">
 <h3>Wow! when do we begin?</h3>
 <p>To integrate Salesforce with Twilio API, and if you have never developed a solution to <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">handle SMS alerts on Salesforce</a>, I invite you to follow <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">this link</a>. It will show you step by step how to connect your Salesforce organization with Twilio API.</p> 
 <p>When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can handle your Twilio phone numbers. You can also create new numbers by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. "Your what"? I know, we are stuck. The situation is really tense right now, but let's move to Salesforce to make it better.</p>
@@ -98,20 +98,21 @@ global class webHookHandler {
     } else {
       return null;
     }
-  }
 
-  //With this method, we recalculate Twilio's signature.
-  //The URI is the exact URL we gave to Twilio
-  //The params map could change over time. To avoid any problem in the future, we are getting this map from Twilio's request header
-  public static String computeSignature(
-    String uri,
-    Map<String, String> params
-  ) {
-    //We verify if we get some parameters on the request's header
-    if (params != null) {
-      //We sort all the parameter names in an alphabetical number
-      List<String> paramNames = new List<String>(params.keySet());
-      paramNames.sort();
+}
+
+//With this method, we recalculate Twilio's signature.
+//The URI is the exact URL we gave to Twilio
+//The params map could change over time. To avoid any problem in the future, we are getting this map from Twilio's request header
+public static String computeSignature(
+String uri,
+Map<String, String> params
+) {
+//We verify if we get some parameters on the request's header
+if (params != null) {
+//We sort all the parameter names in an alphabetical number
+List<String> paramNames = new List<String>(params.keySet());
+paramNames.sort();
 
       //We do the same with the values
       for (String paramName : paramNames) {
@@ -140,48 +141,49 @@ global class webHookHandler {
 
     //We remove any space that we can get
     return computed.trim();
-  }
 
-  private static List<String> getValues(
-    Map<String, String> paramDict,
-    String paramName
-  ) {
-    if (paramDict.containsKey(paramName)) {
-      return new List<String>{ paramDict.get(paramName) };
-    } else {
-      return new List<String>();
-    }
-  }
-  //We use this method to create a case, by getting the SMS text, and the phone number
-  public static void createCase(String bodyValue, String fromValue) {
-    Case createdCase = new Case(Status = 'Open', Description = bodyValue);
-    insert createdCase;
-    String caseNumber = String.valueOf(
-      [SELECT Id, CaseNumber FROM Case WHERE Id = :createdCase.Id]
-      .CaseNumber
-    );
-    String message = String.format(
-      System.label.SMS_to_case_message,
-      new List<String>{ caseNumber }
-    );
-    twilioHandler.callAPI(message, fromValue);
-  }
-  //We use this method to update a case, by getting the SMS text, and the phone number
-  public static void updateCase(
-    List<Case> cList,
-    String bodyValue,
-    String fromValue
-  ) {
-    Case c = cList[0];
-    c.Status = 'Open';
-    c.Description += ' - ' + bodyValue;
-    update c;
-    String message = String.format(
-      System.label.SMS_to_case_message,
-      new List<String>{ c.CaseNumber }
-    );
-    twilioHandler.callAPI(message, fromValue);
-  }
+}
+
+private static List<String> getValues(
+Map<String, String> paramDict,
+String paramName
+) {
+if (paramDict.containsKey(paramName)) {
+return new List<String>{ paramDict.get(paramName) };
+} else {
+return new List<String>();
+}
+}
+//We use this method to create a case, by getting the SMS text, and the phone number
+public static void createCase(String bodyValue, String fromValue) {
+Case createdCase = new Case(Status = 'Open', Description = bodyValue);
+insert createdCase;
+String caseNumber = String.valueOf(
+[SELECT Id, CaseNumber FROM Case WHERE Id = :createdCase.Id]
+.CaseNumber
+);
+String message = String.format(
+System.label.SMS_to_case_message,
+new List<String>{ caseNumber }
+);
+twilioHandler.callAPI(message, fromValue);
+}
+//We use this method to update a case, by getting the SMS text, and the phone number
+public static void updateCase(
+List<Case> cList,
+String bodyValue,
+String fromValue
+) {
+Case c = cList[0];
+c.Status = 'Open';
+c.Description += ' - ' + bodyValue;
+update c;
+String message = String.format(
+System.label.SMS_to_case_message,
+new List<String>{ c.CaseNumber }
+);
+twilioHandler.callAPI(message, fromValue);
+}
 }
 {% endhighlight %}
 
