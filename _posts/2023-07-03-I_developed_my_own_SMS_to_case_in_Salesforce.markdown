@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I developed SMS-To-Case in Salesforce"
+title: "I developed my own SMS-To-Case in Salesforce"
 date: 2023-07-04 09:00:00 +0300
 categories: jekyll update
 ---
@@ -26,7 +26,8 @@ To determine which API to use to create this solution, we have to wonder which A
 
 To integrate Salesforce with Twilio API, and if you have never developed a solution to <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">handle SMS alerts on Salesforce</a>, I invite you to follow <a href="https://www.selimhamidou.com/posts/I_Developed_A_Solution_To_Receive_SMS_Alert_Before_A_Meeting">this link</a>. It will show you step by step how to connect your Salesforce organization with Twilio API.
 
-When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can manage your Twilio phone numbers. You can also create new numbers by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. 
+When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can manage the Twilio phone numbers you would like to use for your SMS-To-Case. 
+Note that you can also create new numbers, by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. 
 
 So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. To know the URL we are using as a webhook endpoint, we have to go back to Salesforce for this.
 
@@ -216,7 +217,28 @@ global class webHookHandler {
 {% endhighlight %}
 
 
-<br>
+### Now, let's send el famoso SMS
+
+
+Imagine that your manager asked you to finish a very important development(let's say this one, about <a href="https://www.selimhamidou.com/posts/I_Integrated_Salesforce_With_A_Google_API_To_Display_On_A_Map_The_Best_Pizzas_Around_Me">displaying the best pizzerias around you on a map</a>). 
+Unfortunately, this is not your day: your computer just crashed. What could you do now?
+You could try this new development!
+So, you send this message to the Apple Support Service:
+
+![SMS sent](/Images/sms_sent.jpg)
+
+
+Now, you receive this message from Twilio:
+
+![SMS received](/Images/sms_received.jpg)
+
+And...
+
+![SMS received](/Images/SMS_to_case_result.jpg)
+
+A new case is created, and is ready to be treated! 
+Of course, some fields are not populated yet. It's just an example of what we can do with Salesforce, and I think that the range of possibilities in Salesforce is huge!
+
 <h3>Sources</h3>
 <ul>
 <li><a href="https://www.twilio.com/docs/usage/webhooks/getting-started-twilio-webhooks">Twilio webhooks documentation</a></li>
@@ -224,6 +246,6 @@ global class webHookHandler {
 <li><a href="https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_classes_restful_crypto.htm">Documentation about encrypting data in Salesforce.</a></li>
 </ul>
 
-
+Cheers,
 Sélim HAMIDOU
 
