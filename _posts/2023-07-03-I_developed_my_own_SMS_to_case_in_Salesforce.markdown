@@ -245,5 +245,6 @@ Of course, some fields are not populated yet. It's just an example of what we ca
 <li><a href="https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_classes_restful_crypto.htm">Documentation about encrypting data in Salesforce.</a></li>
 </ul>
 
+
 Sélim HAMIDOU
 
