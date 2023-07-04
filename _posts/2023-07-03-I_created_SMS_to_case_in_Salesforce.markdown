@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "I built a SMS-To-Case solution in Salesforce"
-date: 2023-07-02 09:00:00 +0300
+title: "I developed SMS-To-Case in Salesforce"
+date: 2023-07-04 09:00:00 +0300
 categories: jekyll update
 ---
 
 
 Hey! I am proud of this one. I am betting that in every project you have been working on, you had to work with email to case. 
 
-I know that Email-to-case is a popular feature right now, but...what about SMS-To-Case? We all have a mobile phone in our pocket. It would be great if we could reach the customer service by SMS when a product we bought doesn’t work as expected. After the interaction, a case would be created, or at least handled, as it is already the case with Email-To-Case. Unfortunately, this feature doesn’t exist yet, so, let’s remediate this.</p>
+I know that Email-to-case is a popular feature right now, but...what about SMS-To-Case? We all have a mobile phone in our pocket. It would be great if we could reach the customer service by SMS when a product we bought doesn’t work as expected. After the interaction, a case would be created, or at least handled, as it is already the case with Email-To-Case. Unfortunately, this feature doesn’t exist yet, so, let’s remediate this.
 
 
 ### Step one: Let's think for a minute...How we can do it?
