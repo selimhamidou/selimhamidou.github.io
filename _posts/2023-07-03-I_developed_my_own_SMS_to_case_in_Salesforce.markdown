@@ -29,10 +29,10 @@ To integrate Salesforce with Twilio API, and if you have never developed a solut
 When it's done, you can move to the <a href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming/">Twilio console</a>. There, you can manage the Twilio phone numbers you would like to use for your SMS-To-Case. 
 Note that you can also create new numbers, by buying some. I didn't do it, but as a company, and for pricing reasons, maybe you would prefer to use a phone number from your own country. It's doable with Twilio API. 
 
-So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. To know the URL we are using as a webhook endpoint, we have to go back to Salesforce for this.
-
 
 ![Twilio settings](/Images/SMS_to_case_twilio_setting.jpg)
+
+So you click on the phone number you want to use for this development, and you go to the "Messaging Configuration" section. There you can define your webhook URL. To know the URL we are using as a webhook endpoint, we have to go back to Salesforce for this.
 
 
 ![Twilio configuration](/Images/SMS_to_case_twilio_config.jpg)
