@@ -227,7 +227,6 @@ So, you send this message to the Apple Support Service:
 
 ![SMS sent](/Images/sms_sent.jpg)
 
-
 Now, you receive this message from Twilio:
 
 ![SMS received](/Images/sms_received.jpg)
