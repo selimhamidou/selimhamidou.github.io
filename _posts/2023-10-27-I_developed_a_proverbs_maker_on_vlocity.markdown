@@ -9,9 +9,12 @@ categories: jekyll update
 Hey! Already been five months since my last article. Time moves so fast! Since my last article, I moved to Brazil for my vacation. Wow, this country is really beautiful...Let's move forward. I remember sitting at Guimini's office, probably with a pizza slice in my hands, speaking about Brazil. I don't know how at this time we moved to this subject, but we began asking to ChatGPT some Brazilian proverbs. The game was simply to read them(with a Brazilian accent, of course), and to try to translate them. it was fun! I don't know if saudade gave me the idea for this article, but...maybe, you know? I mean, saudade is a Brazilian term to describe a state when you miss your friends, your family, or even a country. It's like melancholy, I think. And maybe this melancholy made me think of this game, I don't know...
 
 ![Adriano - saudade](/Images/Vlocity_Adriano_Saudade.jpg)
-*Adriano for me is the definition of saudade. I love this player, he deserved a better carrer*
+*Adriano for me is the definition of saudade. I love this player, he is a great guy, he deserved a better carrer*
 
 So, let's go back to the article. My idea now would be to get some new proverbs every time I open my Salesforce home page. You know the old-fashioned way to do so. We would use a flow, or an LWC if we want something even more customized, and we would call an API to get the proverbs and to display them to the screen. Ok, this is what we used to do in the previous articles. Now, let's do it differently. Instead of using a Sales cloud organization, let's use Vlocity. Vlocity is in general used for specific industries, like energy, media, and communication...And it has its own automation tools. Of course, you can use Salesforce flows, apex code, and LWC in Vlocity. See Vlocity as a supplementary layer on Salesforce. It's still point and click though, like flows. Now, let's design our proverbs displayer. 
+
+## Before we begin, you have to get a Vlocity org. How?
+You just have to go to [this link](https://trailhead.salesforce.com/fr/promo/orgs/omnistudiotrails), and you should receive a confirmation email in a few moments.
 
 ### Where we design our solution
 
