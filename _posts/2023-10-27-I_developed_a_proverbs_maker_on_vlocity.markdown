@@ -46,8 +46,7 @@ To do this, we have to go to the App Launcher, and search for _Omnistudio_. You 
 ### Where we define our Integration Procedure
 While creating a new integration procedure, a good practice to know is to specify in its name the type of process you are using. So, when you create a process in Vlocity, it's better to call it IP_MyIntegrationProcedure, OS_MyOmniScript, FC_MyFlexCard, or DR_MyDataRaptor. By doing this, it's easier to remember the role of your components, especially knowing that some of them will be dependent on each other.
 
-Step 1: Procedure configuration
-We create a new Integration procedure by defining its name, type, and subtype. Nothing too exciting here. This menu also allows us to activate or deactivate an integration procedure. It's important to know this though, because you won't be able to modify an already activated integration procedure(or whatever process you use in Vlocity).
+So we create a new Integration procedure by defining its name, type, and subtype. Nothing too exciting here. This menu also allows us to activate or deactivate an integration procedure. It's important to know this though, because you won't be able to modify an already activated integration procedure(or whatever process you use in Vlocity).
 
 ![Integration Procedure Configuration](/Images/Vlocity_Proverbs_IP_Config.jpg)
 
