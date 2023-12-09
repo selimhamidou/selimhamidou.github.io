@@ -7,14 +7,17 @@ categories: jekyll update
 
 
 Hey! Already been five months since my last article. Time moves so fast! Since my last article, I moved to Brazil for my vacation. Wow, this country is really beautiful...Let's move forward. I remember sitting at Guimini's office, probably with a pizza slice in my hands, speaking about Brazil. I don't know how at this time we moved to this subject, but we began asking to ChatGPT some Brazilian proverbs. The game was simply to read them(with a Brazilian accent, of course), and to try to translate them. it was fun! I don't know if saudade gave me the idea for this article, but...maybe, you know? I mean, saudade is a Brazilian term to describe a state when you miss your friends, your family, or even a country. It's like melancholy, I think. And maybe this melancholy made me think of this game, I don't know...
-So, let's go back to the article. My idea now would be to get some new proverbs every time I open my Salesforce home page. You know the old-fashioned way to do so. We would use a flow, or an LWC if we want something even more customized, and we would call an API to get the proverbs and to display them to the screen. Ok, this is what we used to do in the previous articles. Now, let's do it differently. Instead of using a Sales cloud organization, let's use Vlocity. Vlocity is in general used for specific industries, like energy, media, and communication...And it has its own automation tools. Of course, you can use Salesforce flows, apex code, and LWC in Vlocity. See Vlocity as a supplementary layer on Salesforce. It's still point and click though, like flows. Now, let's design our proverbs displayer. 
 
+![Adriano - saudade](/Images/Vlocity_Adriano_Saudade.jpg)
+*Adriano for me is the definition of saudade. I love this player, he deserved a better carrer*
+
+So, let's go back to the article. My idea now would be to get some new proverbs every time I open my Salesforce home page. You know the old-fashioned way to do so. We would use a flow, or an LWC if we want something even more customized, and we would call an API to get the proverbs and to display them to the screen. Ok, this is what we used to do in the previous articles. Now, let's do it differently. Instead of using a Sales cloud organization, let's use Vlocity. Vlocity is in general used for specific industries, like energy, media, and communication...And it has its own automation tools. Of course, you can use Salesforce flows, apex code, and LWC in Vlocity. See Vlocity as a supplementary layer on Salesforce. It's still point and click though, like flows. Now, let's design our proverbs displayer. 
 
 ### Where we design our solution
 
 Ok, there are four principal tools in Omnistudio. The two first are more front-end tools, and the two other are exclusively backend tools.
 -Flexcards: As it's indicated by its name, it's a card, and inside it, you can write some things, like a letter to your loved ones, or a proverb. Yes, you can do more sophisticated things, like elapsing some bullet points or calling some other processes, but just remember its first role.
--Omniscripts: It's like a flexcard, but can contain multiple steps. In professional projects, this tool is usually used to allow users to fill some data, step by step. For example, in step 1 the user would enter its name and address. In step 2, it will add the quantity of energy he needs, and in step 3 he will be able to choose between multiple subscribings. 
+-Omniscripts: It's like a Flexcard, but can contain multiple steps. In professional projects, this tool is usually used to allow users to fill some data, step by step. For example, in step 1 the user would enter its name and address. In step 2, it will add the quantity of energy he needs, and in step 3 he will be able to choose between multiple subscribings. 
 -Dataraptors: It's useful when you need to get some data, to update/insert/delete them, or when you need to transform a JSON object. In the example of the latter point(Omniscripts), you would need to save the user's data to Salesforce. For this use case, you will need a Dataraptor.
 -Integration procedure: Integration procedures look like what you have with Salesforce flows: you can call multiple actions to do things. It could be Dataraptors, other integration procedures, HTTP actions to call a web service, or even calling Apex code through a remote action. Also, remember that integration procedures are used to do everything that is in the Backend part.
 
@@ -35,7 +38,7 @@ We also created a custom metadata type for the occasion and added the Key__c fie
 ![Custom Metadata Type Record](/Images/Vlocity_Proverbs_Mdt_Record.jpg)
 
 The Vlocity show has to begin, let's move to Omnistudio.
-To do this, we have to go to the App Launcher, and search for "Omnistudio". You can select "Integration Procedures", which will be the core process of our solution.
+To do this, we have to go to the App Launcher, and search for _Omnistudio_. You can select _Integration Procedures_, which will be the core process of our solution.
 
 ### Where we define our Integration Procedure
 While creating a new integration procedure, a good practice to know is to specify in its name the type of process you are using. So, when you create a process in Vlocity, it's better to call it IP_MyIntegrationProcedure, OS_MyOmniScript, FC_MyFlexCard, or DR_MyDataRaptor. By doing this, it's easier to remember the role of your components, especially knowing that some of them will be dependent on each other.
@@ -56,7 +59,7 @@ While creating your Dataraptor, you notice there are four types:
 
 Here we simply use a turbo extract Dataraptor, because it’s sufficient for our needs. We don’t need something really fancy. Just getting one custom metadata type record.
 Also, don't be confused by the input and output data types, just select JSON. It's the most common data type you will have to use, to my mind.
-When we finished defining our Dataraptor, we selected the object we wanted to fetch(API_Keys__mdt) and the node where we put the data(I called it "API_Key", you can call it whatever you want, it's just a way to say to Vlocity "Hey, the data you get, you put them here").
+When we finished defining our Dataraptor, we selected the object we wanted to fetch(_API_Keys__mdt_) and the node where we put the data(I called it _API_Key_, you can call it whatever you want, it's just a way to say to Vlocity "Hey, the data you get, you put them here").
 Also, we only get the records that have the 'ProverbsAPI' as a DeveloperName. Yes, you can specify filters on Dataraptors, just as you would do with SOQL and the WHERE clause.
 
 ![Dataraptor](/Images/Vlocity_Proverbs_DR_Wrong_One.jpg)
@@ -65,7 +68,7 @@ Ok, we need to clarify something here. This Dataraptor, as you know, won't have 
 
 ![Dataraptor](/Images/Vlocity_Proverbs_DR_Correct_One.jpg)
 
-Now, we can verify if our Dataraptor works as expected. We go to Preview and add the name of our custom metadata type. Tomorrow, if we use a custom metadata type called RamboMdt, we will be able to find it. As you can guess, the Preview mode is for tests(changes are not rolled back though). Here you can specify the values of your parameters. In real life, Dataraptors are called by other processes. It could be a text typed by the user on an Omniscript, it could be the value of the current temperature, it could be anything. Here, it's the name of the custom metadata type record, which is given by the Integration Procedure we just began to develop.
+Now, we can verify if our Dataraptor works as expected. We go to Preview and add the name of our custom metadata type. Tomorrow, if we use a custom metadata type called _RamboMdt_, we will be able to find it. As you can guess, the Preview mode is for tests(changes are not rolled back though). Here you can specify the values of your parameters. In real life, Dataraptors are called by other processes. It could be a text typed by the user on an Omniscript, it could be the value of the current temperature, it could be anything. Here, it's the name of the custom metadata type record, which is given by the Integration Procedure we just began to develop.
 
 ![DataRaptor Preview](/Images/Vlocity_Proverbs_DR_Preview.jpg)
 
@@ -73,7 +76,7 @@ When we click on Execute, we can see that everything is perfect. Thus, we can ac
 
 Be careful, if you don't activate it, you won't be able to see it on your integration procedure!!!
 
-We add a Dataraptor turbo action. As a parameter, we add the name of our custom metadata type record. So we say to Omniscript: "Do you see the MdtName variable on the DR_getMdt Dataraptor? OK, so this variable equals 'ProverbsAPI', ta bom?". And then, the SOQL will be performed exactly the same way we did on the Preview mode, and return a response. This response is a JSON, we are just simple people, we want something simple. So we only take what we want, nothing more: the API key. How do we do that? We add "API_Key:Key__c" on the "Response JSON Path" field. By doing this, we say: "In your JSON, we want as a response only this specific field, not all the JSON". 
+We add a Dataraptor turbo action. As a parameter, we add the name of our custom metadata type record. So we say to Omniscript: _"Do you see the MdtName variable on the DR_getMdt Dataraptor? OK, so this variable equals 'ProverbsAPI', ta bom?"_ . And then, the SOQL will be performed exactly the same way we did on the Preview mode, and return a response. This response is a JSON, we are just simple people, we want something simple. So we only take what we want, nothing more: the API key. How do we do that? We add _API_Key:Key__c_ on the "Response JSON Path" field. By doing this, we say: "In your JSON, we want as a response only this specific field, not all the JSON". 
 
 ![Integration Procedure - Dataraptor Callout](/Images/Vlocity_Proverbs_IP_DR_Callout.jpg)
 
@@ -84,11 +87,11 @@ As we would do in Apex, we specify a header with the credentials.
 
 ![Integration Procedure Callout Element](/Images/Vlocity_Proverbs_IP_Config_Callout.jpg)
 
-We finish by creating a response element, which is like the "return" word in Apex. If we don't use it, our Flexcard won't receive anything.
+We finish by creating a response element, which is like the _return_ word in Apex. If we don't use it, our Flexcard won't receive anything.
 
 ![Integration Procedure Response Element](/Images/Vlocity_Proverbs_IP_Config_Response.jpg)
 
-Oh, you can do an exercise when everything will be in place. You could deactivate the last step of your Integration procedure, go back to your Flexcard Setup menu, and click again on "Save and Fetch". What would be the return?
+Oh, you can do an exercise when everything will be in place. You could deactivate the last step of your Integration procedure, go back to your Flexcard Setup menu, and click again on _Save and Fetch_. What would be the return?
 
 ### Where we display the proverbs
 
