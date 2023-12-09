@@ -129,7 +129,6 @@ When it's done, let's see what you got:
 * [Dataraptors](https://help.salesforce.com/s/articleView?id=sf.os_dataraptors.htm&type=5)
 * [Flexcards](https://help.salesforce.com/s/articleView?id=sf.os_omnistudio_flexcards_24388.htm&type=5)
 
-Cheers,
 Sélim HAMIDOU
 
 
