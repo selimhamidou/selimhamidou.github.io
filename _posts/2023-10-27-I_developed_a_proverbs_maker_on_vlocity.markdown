@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I developed a Proverbs maker with Vlocity"
+title: "I miss Brazil so I developed a Proverbs maker with Vlocity"
 date: 2023-12-10 09:00:00 +0300
 categories: jekyll update
 ---
@@ -16,10 +16,10 @@ So, let's go back to the article. My idea now would be to get some new proverbs 
 ### Where we design our solution
 
 Ok, there are four principal tools in Omnistudio. The two first are more front-end tools, and the two other are exclusively backend tools.
--Flexcards: As it's indicated by its name, it's a card, and inside it, you can write some things, like a letter to your loved ones, or a proverb. Yes, you can do more sophisticated things, like elapsing some bullet points or calling some other processes, but just remember its first role.
--Omniscripts: It's like a Flexcard, but can contain multiple steps. In professional projects, this tool is usually used to allow users to fill some data, step by step. For example, in step 1 the user would enter its name and address. In step 2, it will add the quantity of energy he needs, and in step 3 he will be able to choose between multiple subscribings. 
--Dataraptors: It's useful when you need to get some data, to update/insert/delete them, or when you need to transform a JSON object. In the example of the latter point(Omniscripts), you would need to save the user's data to Salesforce. For this use case, you will need a Dataraptor.
--Integration procedure: Integration procedures look like what you have with Salesforce flows: you can call multiple actions to do things. It could be Dataraptors, other integration procedures, HTTP actions to call a web service, or even calling Apex code through a remote action. Also, remember that integration procedures are used to do everything that is in the Backend part.
+* Flexcards: As it's indicated by its name, it's a card, and inside it, you can write some things, like a letter to your loved ones, or a proverb. Yes, you can do more sophisticated things, like elapsing some bullet points or calling some other processes, but just remember its first role.
+* Omniscripts: It's like a Flexcard, but can contain multiple steps. In professional projects, this tool is usually used to allow users to fill some data, step by step. For example, in step 1 the user would enter its name and address. In step 2, it will add the quantity of energy he needs, and in step 3 he will be able to choose between multiple subscribings. 
+* Dataraptors: It's useful when you need to get some data, to update/insert/delete them, or when you need to transform a JSON object. In the example of the latter point(Omniscripts), you would need to save the user's data to Salesforce. For this use case, you will need a Dataraptor.
+* Integration procedure: Integration procedures look like what you have with Salesforce flows: you can call multiple actions to do things. It could be Dataraptors, other integration procedures, HTTP actions to call a web service, or even calling Apex code through a remote action. Also, remember that integration procedures are used to do everything that is in the Backend part.
 
 Now that we know the role of each Omnistudio tool, let's decide which strategy we will use to display proverbs on our Home page.
 So, what do we need? We need to call an API, that's sure, and also display it somewhere. Here we don't need a multi-step process, just one card will be enough. So, a Flexcard is OK for this need. Concerning the API callout, an integration procedure can do this. And, we have to know that the API used is too simple to allow OAuth and named credentials. So, we will store our API key inside a custom metadata type, and get it from our Integration Procedure. Bad news, for now, it's not possible to directly get custom metadata types from integration procedures. Yeah, there is no “click and code method” getInstance methods, which gets your custom metadata types without using some SOQL(even if we use Vlocity type SOQL, it's still SOQL, and it still involves Salesforce governor limits).
@@ -52,15 +52,15 @@ We create a new Integration procedure by defining its name, type, and subtype. N
 That's where we perform our SOQL to get the custom metadata type.
 For now, we leave our Integration Procedure and move to Dataraptors. Don't worry, changes are saved automatically.
 While creating your Dataraptor, you notice there are four types:
--Extract: If you want to get data from multiple objects. These objects can be related, or nonrelated. 
--Turbo extract: It's "turbo", it's faster, but you can only query one object(and its related objects) at a time.
--Load: You have to do a DML operation(so an update, insert or delete);
--Transform: You have a JSON with a specific form, and you want to transform it.
+* Extract: If you want to get data from multiple objects. These objects can be related, or nonrelated. 
+* Turbo extract: It's "turbo", it's faster, but you can only query one object(and its related objects) at a time.
+* Load: You have to do a DML operation(so an update, insert or delete);
+* Transform: You have a JSON with a specific form, and you want to transform it.
 
 Here we simply use a turbo extract Dataraptor, because it’s sufficient for our needs. We don’t need something really fancy. Just getting one custom metadata type record.
 Also, don't be confused by the input and output data types, just select JSON. It's the most common data type you will have to use, to my mind.
 When we finished defining our Dataraptor, we selected the object we wanted to fetch(_API_Keys__mdt_) and the node where we put the data(I called it _API_Key_, you can call it whatever you want, it's just a way to say to Vlocity "Hey, the data you get, you put them here").
-Also, we only get the records that have the 'ProverbsAPI' as a DeveloperName. Yes, you can specify filters on Dataraptors, just as you would do with SOQL and the WHERE clause.
+Also, we only get the records that have the 'ProverbsAPI' as a DeveloperName. Yes, you can specify filters on Dataraptors, just as you would do with SOQL and the _WHERE_ clause.
 
 ![Dataraptor](/Images/Vlocity_Proverbs_DR_Wrong_One.jpg)
 
@@ -116,6 +116,18 @@ When it's done, we just have to Activate our Flexcard, and Publish it. Let's be 
 ![Flexcard - Activation](/Images/Vlocity_Proverbs_FC_Activation.jpg)
 ![Flexcard - Publication](/Images/Vlocity_Proverbs_FC_Publish.jpg)
 
+We now can add it to the App Builder, as any Lightning Web Component.
+![App Builder](/Images/Vlocity_Proverbs_App_Builder.jpg)
+
+When it's done, let's see what you got:
+![Final](/Images/Vlocity_Proverbs_Final.jpg)
+
+### Sources
+* [Integration procedures](https://help.salesforce.com/s/articleView?id=sf.os_integration_procedures.htm&type=5)
+* [Dataraptors](https://help.salesforce.com/s/articleView?id=sf.os_dataraptors.htm&type=5)
+* [Flexcards](https://help.salesforce.com/s/articleView?id=sf.os_omnistudio_flexcards_24388.htm&type=5)
+
+Cheers,
 Sélim HAMIDOU
 
 
