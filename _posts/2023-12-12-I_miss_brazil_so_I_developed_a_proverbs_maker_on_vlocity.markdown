@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I miss Brazil so I developed a Proverbs maker with Vlocity"
+title: "I miss Brazil, so I developed a Proverbs maker with Vlocity"
 date: 2023-12-10 09:00:00 +0300
 categories: jekyll update
 ---
