@@ -7,7 +7,7 @@ categories: jekyll update
 
 ![Pokemon](/Images/data_cloud_pokemon_first_image.jpg)
 
-Step into the dynamic realm of Salesforce Data Cloud, where every dataset is an adventure waiting to unfold! Join us on an exhilarating journey as we navigate through AWS S3 buckets, leveraging the formidable capabilities of Salesforce Data Cloud to ingest and analyze Pokémon data. But first, let's lay the groundwork for our epic expedition.
+Step into the dynamic realm of Salesforce Data Cloud, where every dataset is an adventure waiting to unfold! Join me on an exhilarating journey as I navigate through AWS S3 buckets, leveraging the formidable capabilities of Salesforce Data Cloud to ingest and analyze Pokémon data. But first, let's lay the groundwork for my epic expedition.
 
 ### First part: Setting the Stage: Configuring AWS S3 Buckets
 Creating Your AWS Account
