@@ -1,9 +1,11 @@
 ---
 layout: post
-title: "I ingested pokemons on Salesforce Data Cloud"
+title: "I ingested Pokemons on Salesforce Data Cloud"
 date: 2024-03-17 09:00:00 +0300
 categories: jekyll update
 ---
+
+![Pokemon](/Images/data_cloud_pokemon_first_image.jpg)
 
 Step into the dynamic realm of Salesforce Data Cloud, where every dataset is an adventure waiting to unfold! Join us on an exhilarating journey as we navigate through AWS S3 buckets, leveraging the formidable capabilities of Salesforce Data Cloud to ingest and analyze Pokémon data. But first, let's lay the groundwork for our epic expedition.
 
@@ -62,6 +64,14 @@ Then, just click on Deploy.
 #### Visualize your data
 When it's done, go to Data Explorer. There, you can visualize your data.
 ![Data explorer](/Images/data_cloud_data_explorer.jpg)
+
+
+### Sources
+<ul>
+<li><a href="https://www.linkedin.com/pulse/preparing-csv-files-aws-s3-ingest-data-loader-andres-perez-eltoroit--w6wcc">Really great article from Andres Peres</a></li>
+<li><a href="https://help.salesforce.com/s/articleView?id=sf.c360_a_userpermissions.htm&type=5">Salesforce documentation on Data Cloud</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html">Amazon S3 documentation</a></li>
+</ul>
 
 Take care,
 Sélim HAMIDOU
