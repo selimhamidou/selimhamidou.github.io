@@ -23,8 +23,7 @@ Just as a Pokémon trainer customizes their team, we need to configure a user fo
 #### Creating Your AWS S3 Bucket
 Now, let's create the repository for our Pokémon data. Within the AWS Management Console, navigate to the S3 service and click "Create bucket". Choose a unique bucket name, adhering to the kebab-case format(not the sandwich) to ensure compatibility. Once created, prepare to upload your Pokémon CSV file.
 <br/><br/>
-![AWS S3 Bucket Creation](/Images/data_cloud_aws_create_bucket.jpg)
-<br/><br/>
+![AWS S3 Bucket Creation](/Images/data_cloud_aws_create_bucket.jpg)\
 ![AWS S3 Inside Bucket](/Images/data_cloud_aws_inside_bucket.jpg)
 <br/><br/>
 
