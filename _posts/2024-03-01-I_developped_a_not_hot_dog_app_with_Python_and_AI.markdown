@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I've created a Not Hot Dog app"
+title: "I've developed my own Not Hot Dog app with Python and AI"
 date: 2024-06-27 09:00:00 +0300
 categories: jekyll update
 ---
