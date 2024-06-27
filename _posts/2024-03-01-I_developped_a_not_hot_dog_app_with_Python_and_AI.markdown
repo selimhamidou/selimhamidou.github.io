@@ -9,7 +9,7 @@ categories: jekyll update
 
 Hey! Remember that scene episode in Silicon Valley where Jian Yang creates an app to identify hot dogs? Personally, I've always been inspired by this scene and by AI in general. So, let's channel our inner Jian Yang for a day and create our first "Not Hot Dog" app using Python and FastAI.
 
-<iframe width="420" height="315" src="https://www.youtube.com/watch?v=vIci3C4JkL0" frameborder="0" allowfullscreen> </iframe>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/vIci3C4JkL0" frameborder="0" allowfullscreen> </iframe>
 
 ### Our stack for this project
 For this project, we will use Kaggle, which is essentially a powerful computer where you can perform complex operations. On Kaggle, you can install all the necessary AI libraries, making it much simpler than using your own computer. The only downside is that if you leave your computer for a while, you may need to reinstall and relaunch everything.
