@@ -179,6 +179,8 @@ The prompt template receives the data graph JSON and produces the summary the sa
 
 What makes this interesting as a UX pattern is that the conversation doesn't stop there. The rep can ask follow-up questions, request a draft retention email, ask about similar customers, or dig into specific signals. The agent has the full context from the data graph and can work with it.
 
+![Churn result](/Images/Churn_result.jpg)
+
 
 ### What I'd tighten up in production
 
