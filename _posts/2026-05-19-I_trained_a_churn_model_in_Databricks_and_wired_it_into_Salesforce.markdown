@@ -11,8 +11,8 @@ Hey, let's be honest. Some customers are doing great, but some others are one ba
 
 So, I wanted to fix that.
 
-*Churn: When a customer stops using your service and leaves for good.
-Customer health: A score that tells you, before it's too late, how likely that customer is to stay.*
+*Churn: When a customer stops using your service and leaves for good.*
+*Customer health: A score that tells you, before it's too late, how likely that customer is to stay.*
 
 ### What I actually built
 
