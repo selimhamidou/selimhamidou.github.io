@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I built a customer health model and made it talk to your sales reps"
+title: "I trained a churn model on Databricks and wired it into Salesforce so your reps always know who's about to leave"
 date: 2026-05-19 20:00:00 +0300
 categories: jekyll update
 ---
@@ -11,6 +11,8 @@ Hey, let's be honest. Some customers are doing great, but some others are one ba
 
 So, I wanted to fix that.
 
+*Churn: When a customer stops using your service and leaves for good.
+Customer health: A score that tells you, before it's too late, how likely that customer is to stay.*
 
 ### What I actually built
 
@@ -35,6 +37,7 @@ I used a telecom churn dataset of 7000 lines and 16 features as the base for cus
 On Databricks, I trained a LightGBM classifier inside a sklearn `Pipeline`, and used MLFlow to deploy it. 
 
 **The model and the explainability layer**
+
 The data from this dataset were pretty straightforward and standardized, so I hadn't a lot of preprocessing work to do. But, because of the fact that every feature (except MonthlyCharges and Tenure) was categorical, I preferred to choose LightGBM — as long as those columns are typed as `category` in pandas, LightGBM handles them natively without requiring an explicit encoder. This also matters for the post-training analysis: LightGBM is compatible with SHAP's `TreeExplainer`, which we use to compute the local contribution of each feature to the prediction for every individual customer.
 
 
@@ -78,6 +81,7 @@ def get_top3_churn_reasons(input_df, pipe):
 {% endhighlight %}
 
 **The MLflow wrapper**
+
 Here I've used a custom `predict` function, to be able to send not only the label ("Churn"/"No churn"), but also the scores, and the top 3 reasons.
 
 {% highlight python %}
@@ -112,7 +116,7 @@ Now that I had my model registered with MLFlow, I had to point it at an external
 ![Customer Churn Prediction](/Images/Churn_prediction_Job_DC.jpg)
 
 
-### The data graph: connecting the dots
+### The data graph: making all the data available in the same spot for Agentforce
 
 In Data Cloud, I built relationships between four objects:
 
@@ -186,12 +190,13 @@ What makes this interesting as a UX pattern is that the conversation doesn't sto
 
 A few things that are fine for a proof of concept but would need work at scale:
 
-- **Automated batch scoring** — trigger the BYOM job on new data ingestion rather than manually
-- **Model monitoring in MLflow** — track prediction distribution over time, alert on drift
-- **A proper feature pipeline** — ensure training features and serving features are computed identically, which matters more than it sounds once you have multiple data sources
+- **Automating batch scoring and model training**: trigger the BYOM job on new data ingestion rather than manually
+- **Model monitoring in MLflow**: track prediction distribution over time, alert on drift
+- **A proper feature pipeline**: ensure training features and serving features are computed identically, which matters more than it sounds once you have multiple data sources
 
 
 ### Sources & tools
+- [The dataset I used](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 - [Scikit-learn documentation](https://scikit-learn.org)
 - [SHAP — SHapley Additive exPlanations](https://shap.readthedocs.io)
 - [MLflow documentation](https://mlflow.org)
