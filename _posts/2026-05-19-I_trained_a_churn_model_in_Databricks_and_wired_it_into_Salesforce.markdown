@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I trained a churn model on Databricks and wired it into Agentforce so your reps always know who's about to leave"
+title: "I trained a churn model on Databricks and wired it into Agentforce so your sales reps always know who's about to leave"
 date: 2026-05-19 20:00:00 +0300
 categories: jekyll update
 ---
